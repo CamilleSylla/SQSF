@@ -1,0 +1,17 @@
+.product_container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .pages_related {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 40vh;
+        h1 {
+            font-size: 4vh;
+            text-transform: uppercase;
+        }
+      }
+}
