@@ -1,0 +1,32 @@
+.form_container {
+  width: 50%;
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  * {
+    width: 80%;
+    border: none;
+    background-color: transparent;
+  }
+  input {
+    border-bottom: 1px solid #2a324b;
+    height: 40px;
+  }
+  label {
+    margin-top: 20px;
+    font-size: 2.5vh;
+    font-weight: 700;
+  }
+  .form_submit {
+    width: 30%;
+    height: 50px;
+    background-color: #2a324b;
+    color: lightgray;
+    border: none;
+    font-size: 2.5vh;
+    font-weight: 700;
+    cursor: pointer;
+  }
+}

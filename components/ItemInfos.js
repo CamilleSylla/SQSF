@@ -1,7 +1,9 @@
 import Image from "next/image";
 import styles from "../styles/iteminfos.module.scss";
 
-export default function ItemInfos() {
+
+
+export default function ItemInfos({item}) {
   return (
     <>
       <section className={styles.iteminfos}>
@@ -37,22 +39,15 @@ export default function ItemInfos() {
           </div>
         </div>
         <article>
-          <h1>Titre de l'article</h1>
-          <h2>Marque</h2>
+          <h1>{item.name}</h1>
+          <h2>{item.brand}</h2>
           <p className={styles.product_desc}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam nec
-            aliquam quam, sed lacinia nunc. Nullam in orci vel urna porta porta
-            ut nec felis. Curabitur mattis lorem ac lacinia euismod. Maecenas
-            venenatis neque et massa rutrum, quis tincidunt felis sodales. Nulla
-            ornare pulvinar nulla, eget eleifend eros luctus id. Donec finibus
-            lacus sem, at pulvinar justo pulvinar non.
+            {item.description}
           </p>
-          <h3>20.00€</h3>
+          <h3>{item.price}€</h3>
           <div className={styles.categroy_grid}>
-            <p>Categrorie A</p>
-            <p>Categrorie A</p>
-            <p>Categrorie A</p>
-            <p>Categrorie A</p>
+            {item.category.map(cat => <p>{cat}</p>)}
+            {item.matiere.map(mat => <p>{mat}</p>)}
           </div>
           <div className={styles.sizing_wrapper}>
             <button>XS</button>
@@ -73,3 +68,5 @@ export default function ItemInfos() {
     </>
   );
 }
+
+

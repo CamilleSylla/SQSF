@@ -27,6 +27,8 @@ export default function NavBar() {
             <li><Link href="/connection"><a>Connexion</a></Link></li>
             <li><Link href="/product"><a>Product</a></Link></li>
             <li><Link href="/panier"><a>Panier</a></Link></li>
+            <li><Link href="/profil"><a>Profils</a></Link></li>
+            <li><Link href="/inscription_vendeur"><a>Insc Vendeur</a></Link></li>
          </ul>
          </nav>
       </header>
