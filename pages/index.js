@@ -1,6 +1,7 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import axios from "axios";
+import HeroBanner from "../components/HeroBanner";
 
 export default function Home({ items }) {
 
@@ -11,18 +12,9 @@ export default function Home({ items }) {
 
       </Head>
 
-      <section>
-          {items.map((item) => {
-            return (
-              <>
-                <li>{item.brand}</li>
-                <p>{item.name}</p>
-                <p>{item.price}€</p>
-                <p>{item.description}</p>
-              </>
-            );
-          })}
-      </section>
+      <div>
+        <HeroBanner/>
+      </div>
     </>
   );
 }

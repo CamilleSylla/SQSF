@@ -39,7 +39,14 @@ export default function ItemInfos() {
         <article>
           <h1>Titre de l'article</h1>
           <h2>Marque</h2>
-          <p className={styles.product_desc}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam nec aliquam quam, sed lacinia nunc. Nullam in orci vel urna porta porta ut nec felis. Curabitur mattis lorem ac lacinia euismod. Maecenas venenatis neque et massa rutrum, quis tincidunt felis sodales. Nulla ornare pulvinar nulla, eget eleifend eros luctus id. Donec finibus lacus sem, at pulvinar justo pulvinar non.</p>
+          <p className={styles.product_desc}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam nec
+            aliquam quam, sed lacinia nunc. Nullam in orci vel urna porta porta
+            ut nec felis. Curabitur mattis lorem ac lacinia euismod. Maecenas
+            venenatis neque et massa rutrum, quis tincidunt felis sodales. Nulla
+            ornare pulvinar nulla, eget eleifend eros luctus id. Donec finibus
+            lacus sem, at pulvinar justo pulvinar non.
+          </p>
           <h3>20.00€</h3>
           <div className={styles.categroy_grid}>
             <p>Categrorie A</p>
