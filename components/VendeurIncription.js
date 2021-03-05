@@ -44,14 +44,12 @@ export default function VendeurInscription() {
     setSubmit({ ...submit, cp: e.target.value });
   };
 
-  const Submit = e => {
-      axios.post('http://localhost:3001/api/user/inscription/vendeur', submit)
-      .then(res => console.log(res))
-      .catch(err => console.log(err))
-
-      e.preventDefault()
-
-  }
+  const Submit = (e) => {
+    axios
+      .post("http://localhost:3001/api/user/inscription/vendeur", submit)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
   return (
     <>
       <form className={style.form_container} onSubmit={Submit}>
@@ -86,7 +84,7 @@ export default function VendeurInscription() {
         />
         <input type="text" placeholder="Ville" onChange={onCityChange} />
         <input type="text" placeholder="Code Postal" onChange={onCPChange} />
-        <input type="submit" value="M'inscrire" className={style.form_submit}/>
+        <input type="submit" value="M'inscrire" className={style.form_submit} />
       </form>
     </>
   );

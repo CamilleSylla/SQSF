@@ -1,9 +1,9 @@
 import Head from "next/head";
 import Image from "next/image";
-import style from '../styles/profil.module.scss'
+import style from '../../styles/profil.module.scss'
 import axios from 'axios'
 
-const id = "6042308b5cbbe4504cc91d76"
+const id = "60425ff494f4030a00a98eda"
 export default function SellerProfile ({vendeur}) {
     return (
         <>
@@ -70,9 +70,9 @@ export default function SellerProfile ({vendeur}) {
     )
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps({params}) {
     const vendeur = await axios
-      .get(`http://localhost:3001/api/vendeur/${id}`)
+      .get(`http://localhost:3001/api/vendeur/${params.vendeur}`)
       .then((res) => {
         return res.data;
       })

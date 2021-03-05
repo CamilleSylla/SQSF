@@ -1,8 +1,8 @@
-import ItemInfos from "../components/ItemInfos";
-import style from '../styles/product.module.scss'
+import ItemInfos from "../../components/ItemInfos";
+import style from '../../styles/product.module.scss'
 import axios from 'axios'
 
-const id = "603fb2419df8b350643cde80"
+
 
 export default function Product({item}) {
   return (
@@ -20,9 +20,9 @@ export default function Product({item}) {
   );
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps({params}) {
   const item = await axios
-    .get(`http://localhost:3001/api/inventary/${id}`)
+    .get(`http://localhost:3001/api/inventary/${params.id}`)
     .then((res) => {
       return res.data;
     })

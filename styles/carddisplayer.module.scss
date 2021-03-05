@@ -5,6 +5,7 @@
     grid-template-columns: repeat(4, 1fr);
     column-gap: 20px;
     article {
+        cursor: pointer;
         width: 100%;
         h1 {
             font-size: 2vh;

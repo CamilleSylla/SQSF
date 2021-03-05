@@ -1,8 +1,29 @@
+import axios from 'axios'
 import Image from 'next/image'
+import { useState } from 'react'
 import style from '../styles/login.module.scss'
 
 export default function Login () {
 
+    const [connect, setConnect] = useState({
+        email: "",
+        password: "",
+    })
+
+    const onEmailChange = e => {
+        setConnect({...connect, email: e.target.value})
+    }
+    const onPasswordChange = e => {
+        setConnect({...connect, password: e.target.value})
+    }
+    const Submit = (e) => {
+        axios
+          .post("http://localhost:3001/api/user/auth/connexion/vendeur", connect)
+          .then((res) => console.log(res))
+          .catch((err) => console.log(err));
+          e.preventDefault()
+      };
+    
     return (
         <>
             <div className={style.login_wrapper}>
@@ -15,7 +36,7 @@ export default function Login () {
               objectFit="contain"
             />
                 </div>
-            <form>
+            <form onSubmit={Submit}>
                 <div className={style.form_img}>
                 <Image
               src="/sqmarket.svg"
@@ -24,9 +45,9 @@ export default function Login () {
          height="50%"
             />
                 </div>
-                <input type="email" placeholder="Adresse e-mail"/>
-                <input type="password" placeholder="Mot de passe"/>
-                <input type="button" value="Connection" className={style.connection_btn}/>
+                <input type="email" onChange={onEmailChange} placeholder="Adresse e-mail"/>
+                <input type="password" onChange={onPasswordChange} placeholder="Mot de passe"/>
+                <input type="submit" value="Connection" className={style.connection_btn}/>
             </form>
             </div>
         </>
