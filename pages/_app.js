@@ -1,12 +1,15 @@
-import Layout from '../components/Layout'
-import '../styles/globals.css'
+import Layout from "../components/Layout";
+import { UserProvider } from "../context/userLog";
+import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {
-  return (<Layout>
-    
-    <Component {...pageProps} />
-  </Layout>
-  )
+  return (
+    <UserProvider>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </UserProvider>
+  );
 }
 
-export default MyApp
+export default MyApp;

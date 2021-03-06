@@ -1,0 +1,47 @@
+/* COLORSSS <3
+deepgrey: #2A324B
+grey: #8E92A4
+white: #F2F3F8
+ */
+
+.dashboard_menu_wrapper {
+  width: 20%;
+  height: 92vh;
+  background-color: #2a324b;
+  color: #f2f3f8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  ul {
+    padding: 0;
+    list-style: none;
+    li {
+        font-size: 2.5vh;
+        font-weight: 600;
+      width: 100%;
+      height: 8vh;
+      text-align: center;
+      cursor: pointer;
+    }
+  }
+  .branding {
+      position: absolute;
+      bottom: 50px;
+      font-size: 1.5vh;
+      height: 10vh;
+      display: flex;
+      flex-direction: column;
+      .branding_img {
+          width: 20vh;
+          height: 10vh;
+          position: relative;
+      }
+  }
+  .dashboard_pp_wrapper {
+      width: 10vh;
+      height: 10vh;
+      position: absolute;
+      top: 50px;
+  }
+}
