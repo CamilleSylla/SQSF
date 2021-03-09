@@ -6,13 +6,12 @@
     .profil_banner {
         height: 50vh;
         width: 100%;
-        background-color: aqua;
         position: relative;
         .profil_picture {
             width: 20vh;
             height: 20vh;
             position: absolute;
-            border: aqua 5px solid;
+            border: lightgray 5px solid;
             left: 50px;
             bottom: 50px;
         }
@@ -20,12 +19,24 @@
             position: absolute;
             bottom: 50px;
             left: 250px;
+            color: lightgray;
+            text-shadow: 0 0 20px lightgray;
         }
     }
     .profil_infos_wrapper {
         width: 80%;
         display: flex;
+        justify-content: space-between;
     }
+    .profil_product {
+        width: 65%;
+        margin-top: 50px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 5%;
+    }
+
+
     .profil_identity {
         margin-top: 50px;
         width: 30%;

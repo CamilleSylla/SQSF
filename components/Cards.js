@@ -9,8 +9,9 @@ export default function Cards({ data }) {
           <Link href={`/product/${item._id}`}>
             <article>
               <div className={style.image_container_market}>
+              {/* "/image.svg" */}
                 <Image
-                  src="/image.svg"
+                  src={item.images.length > 0 ? item.images[0] : "/image.svg"}
                   alt={item.name}
                   layout="fill"
                   sizes="100%"

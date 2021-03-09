@@ -6,7 +6,6 @@ import style from "../styles/login.module.scss";
 
 export default function Login() {
   const [user, setUser] = useContext(UserContext);
-  console.log(user);
   const [connect, setConnect] = useState({
     email: "",
     password: "",
@@ -26,6 +25,8 @@ export default function Login() {
           id: res.data.id,
           society: res.data.society,
           token: res.headers.vendeur_auth_token,
+          profile_picture: res.data.profile_picture,
+          banniere_picture: res.data.banniere_picture
         })
       )
       .catch((err) => console.log(err));

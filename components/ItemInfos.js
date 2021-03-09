@@ -10,7 +10,7 @@ export default function ItemInfos({item}) {
         <div className={styles.image_displayer}>
           <div className={styles.main_image}>
             <Image
-              src="/image.svg"
+              src={item.images[0]  ? item.images[0] : "/image.svg"}
               alt="imagecont"
               layout="fill"
               sizes="100%"
@@ -20,7 +20,7 @@ export default function ItemInfos({item}) {
           <div className={styles.additionnal_image_wrapper}>
             <div className={styles.additionnal_image}>
               <Image
-                src="/image.svg"
+                src={item.images[1] ? item.images[1] : "/image.svg"}
                 alt="imagecont"
                 layout="fill"
                 sizes="100%"
@@ -29,7 +29,7 @@ export default function ItemInfos({item}) {
             </div>
             <div className={styles.additionnal_image}>
               <Image
-                src="/image.svg"
+                src={item.images[2] ? item.images[2] : "/image.svg"}
                 alt="imagecont"
                 layout="fill"
                 sizes="100%"

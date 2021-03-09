@@ -4,6 +4,7 @@ import CardDisplayer from "../components/CardDisplayer";
 import style from '../styles/market.module.scss'
 
 export default function Market ({items}) {
+  console.log(items);
     return <>
     <Head>
         <title>SQMarket - Catalogue</title>

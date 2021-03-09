@@ -1,0 +1,39 @@
+.filter_and_addProduct {
+  width: 90%;
+  min-height: 15vh;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .filter {
+    width: 65%;
+  }
+  .addProduct {
+    width: 20%;
+    height: 60%;
+    background-color: lightgray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+}
+
+.addFrom{
+    width: 90%;
+}
+
+.table_wrapper {
+  width: 90%;
+  text-align: left;
+  table-layout: fixed;
+  border-spacing: 20px 1rem;
+  th {
+    overflow: hidden;
+  }
+  .table_data {
+    font-weight: 300;
+    border-top: 1px solid lightgray;
+  }
+}

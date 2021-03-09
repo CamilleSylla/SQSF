@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "dotenv": "^8.2.0",
+    "firebase": "^8.2.10",
     "next": "10.0.7",
     "next-images": "^1.7.0",
     "react": "17.0.1",
