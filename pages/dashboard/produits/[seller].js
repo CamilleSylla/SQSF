@@ -4,9 +4,10 @@ import style from "../../../styles/maindashboard.module.scss";
 import component from "../../../styles/dashboardlistproducts.module.scss";
 import { useState } from "react";
 import CreateArticle from "../../../components/CreateArticle";
+import Link from "next/link";
 export default function ProduitsVendeurProfil({ profil_item }) {
   const [hide, setHide] = useState(true)
-
+console.log(profil_item);
     return (
     <>
       <div className={style.dashboard_wrapper}>
@@ -33,7 +34,7 @@ export default function ProduitsVendeurProfil({ profil_item }) {
               <th>Promotion</th>
               <th>Action</th>
             </tr>
-
+            
             {profil_item.map((items) => {
               return (
                 <tr className={component.table_data}>
@@ -43,10 +44,14 @@ export default function ProduitsVendeurProfil({ profil_item }) {
                   <th>{items.price}€</th>
                   <th>Catégory</th>
                   <th>{items.promotion}</th>
+                  <Link href={`/product/modify/${items._id}`}>
                   <th>...</th>
+                  </Link>
                 </tr>
               );
             })}
+            
+            
           </table>
         </div>
       </div>

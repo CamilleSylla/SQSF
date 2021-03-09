@@ -35,5 +35,9 @@
   .table_data {
     font-weight: 300;
     border-top: 1px solid lightgray;
+      &:hover {
+        background-color: lightgray;
+      }
+    
   }
 }
