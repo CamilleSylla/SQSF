@@ -8,8 +8,7 @@ export default function CreateArticle() {
   const [user, setUser] = useContext(UserContext);
   const [item, setItem] = useState({
     vendeur: user.society,
-    images : []
-    
+    images: [],
   });
 
   const [image, setImage] = useState(null);
@@ -25,7 +24,7 @@ export default function CreateArticle() {
   const fileUrl = [];
 
   const handleUpload = (e) => {
-      e.preventDefault()
+    e.preventDefault();
     image.forEach((image) => {
       const uploadTask = storage.ref(`images/${image.name}`).put(image);
       uploadTask.on(
@@ -40,7 +39,7 @@ export default function CreateArticle() {
             .child(image.name)
             .getDownloadURL()
             .then((url) => {
-              item.images.push(url)
+              item.images.push(url);
             });
         }
       );
@@ -90,7 +89,7 @@ export default function CreateArticle() {
   //     setItem({...item, name: e.target.value})
   // }
   const Submit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     let config = {
       headers: {

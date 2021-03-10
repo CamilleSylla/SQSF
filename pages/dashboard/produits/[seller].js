@@ -7,7 +7,6 @@ import CreateArticle from "../../../components/CreateArticle";
 import Link from "next/link";
 export default function ProduitsVendeurProfil({ profil_item }) {
   const [hide, setHide] = useState(true)
-console.log(profil_item);
     return (
     <>
       <div className={style.dashboard_wrapper}>
@@ -44,7 +43,7 @@ console.log(profil_item);
                   <th>{items.price}€</th>
                   <th>Catégory</th>
                   <th>{items.promotion}</th>
-                  <Link href={`/product/modify/${items._id}`}>
+                  <Link href={`/dashboard/produits/modify/${items._id}`}>
                   <th>...</th>
                   </Link>
                 </tr>

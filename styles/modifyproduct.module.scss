@@ -1,0 +1,34 @@
+.el_wrapper {
+    width: 80%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.imageschoice {
+    width: 20%;
+    height: 92vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    .imagePic {
+        .imageContainer{
+            position: relative;
+            width: 80%;
+            height: 100px;
+        }
+    }
+}
+.formModify {
+    width: 60%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    form {
+        height: 90%;
+        display: flex;
+        justify-content: space-evenly;
+        flex-direction: column;
+        width: 80%;
+    }
+}
