@@ -17,3 +17,20 @@
         text-transform: uppercase;
     }
 }
+.filter_and_search {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    input {
+        width: 25%;
+        height: 25px;
+    }
+    .display_filter {
+        width: 200px;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: lightgray;
+    }
+}
