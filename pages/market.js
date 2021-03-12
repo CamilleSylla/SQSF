@@ -2,6 +2,7 @@ import axios from "axios";
 import Head from "next/head";
 import { useState } from "react";
 import CardDisplayer from "../components/CardDisplayer";
+import Filter from "../components/Filter";
 import style from "../styles/market.module.scss";
 
 export default function Market({ items }) {
@@ -22,6 +23,8 @@ export default function Market({ items }) {
           <input type="text" onChange={(e) => setSearch(e.target.value)} />
             <div className={style.display_filter} onClick={() => setToogleFilter(!toogleFilter)}>{toogleFilter == true ? "Annuler" :  "+ Afficher les filtres"}</div>
         </div>
+
+        <Filter/>
         <CardDisplayer
           data={items.filter((filtered) => {
             if (search == "") {

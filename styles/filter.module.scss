@@ -1,0 +1,23 @@
+.filter_container {
+    width: 80%;
+    min-height: 200px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-evenly;
+    div {
+        border-left: 1px solid lightgray;
+        width: 100%;
+        p {
+            margin-left: 10px;
+        }
+        ol {
+            list-style: none;
+            li {
+                label {
+                    margin-left: 10px;
+                }
+            }
+        }
+    }
+}
