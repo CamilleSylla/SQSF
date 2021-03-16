@@ -4,6 +4,7 @@ import styles from "../styles/iteminfos.module.scss";
 
 
 export default function ItemInfos({item}) {
+  console.log(item);
   return (
     <>
       <section className={styles.iteminfos}>
@@ -46,7 +47,7 @@ export default function ItemInfos({item}) {
           </p>
           <h3>{item.price}€</h3>
           <div className={styles.categroy_grid}>
-            {item.category.map(cat => <p>{cat}</p>)}
+            <p>{item.categorie}</p>
             {item.matiere.map(mat => <p>{mat}</p>)}
           </div>
           <div className={styles.sizing_wrapper}>

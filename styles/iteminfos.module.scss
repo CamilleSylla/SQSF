@@ -48,7 +48,9 @@
       font-weight: 900;
     }
     .product_desc {
-        max-width: 70%;
+        max-width: 80%;
+        max-height: 40%;
+        overflow-y: scroll;
     }
     .categroy_grid {
       width: 50%;

@@ -4,12 +4,13 @@ import { UserContext } from "../context/userLog";
 import style from "../styles/createarticle.module.scss";
 import { storage } from "../firebase/firebase";
 
-export default function CreateArticle() {
+export default function CreateArticle({ getGenre, getCategories}) {
   const [user, setUser] = useContext(UserContext);
   const [item, setItem] = useState({
     vendeur: user.society,
     images: [],
   });
+
 
   const [image, setImage] = useState(null);
 
@@ -82,12 +83,12 @@ export default function CreateArticle() {
   const ondescriptionChange = (e) => {
     setItem({ ...item, description: e.target.value });
   };
-  // const onNameChange = e => {
-  //     setItem({...item, name: e.target.value})
-  // }
-  // const onNameChange = e => {
-  //     setItem({...item, name: e.target.value})
-  // }
+  const ongenreChange = (e) => {
+    setItem({ ...item, genre: e.target.value });
+  };
+  const oncategorieChange = (e) => {
+    setItem({ ...item, categorie: e.target.value });
+  };
   const Submit = (e) => {
     e.preventDefault();
 
@@ -149,8 +150,26 @@ export default function CreateArticle() {
             placeholder="Description du produit"
           />
           <input type="text" onChange={onmatiereChange} placeholder="Matiere" />
-          <input type="text" placeholder="Catégorie" />
-          <input type="text" placeholder="Genre" />
+          <select onChange={oncategorieChange}>
+                <option value="">
+                  {item.categorie
+                    ? `Ce poduit est catégoriser sous " ${item.categorie} "`
+                    : "Veuillez une catégorie de produit"}
+                </option>
+                {getCategories.map((cat) => {
+                  return <option value={cat.name}>{cat.name}</option>;
+                })}
+              </select>
+              <select onChange={ongenreChange}>
+                <option value="">
+                  {item.genre
+                    ? `Ce poduit est classer sous le genre " ${item.genre} "`
+                    : "Veuillez une genrer ce produit"}
+                </option>
+                {getGenre.map((genre) => {
+                  return <option value={genre.name}>{genre.name}</option>;
+                })}
+              </select>
           <input type="submit" value="Ajouter" />
         </div>
       </form>

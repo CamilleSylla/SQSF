@@ -6,7 +6,7 @@ import { useState } from "react";
 import CreateArticle from "../../../components/CreateArticle";
 import Link from "next/link";
 import Image from "next/image";
-export default function ProduitsVendeurProfil({ profil_item }) {
+export default function ProduitsVendeurProfil({ profil_item, getGenre, getCategories }) {
   const [hide, setHide] = useState(true);
   const [search, setSearch] = useState("");
 
@@ -46,7 +46,7 @@ export default function ProduitsVendeurProfil({ profil_item }) {
             </div>
           </div>
           <div className={component.addFrom}>
-            {hide ? null : <CreateArticle />}
+            {hide ? null : <CreateArticle getGenre={getGenre} getCategories={getCategories}/>}
           </div>
 
           <div className={component.product_card_grid}>
@@ -82,6 +82,8 @@ export default function ProduitsVendeurProfil({ profil_item }) {
                     <div className={component.rows_content}>
                       <p>{item.name}</p>
                       <p>{item.brand}</p>
+                      <p>Catégorie : {item.categorie}</p>
+                      <p>Genre : {item.genre}</p>
                       <p>{item.price}€</p>
                       <p>Crée le {getFommattedDate(item.date)}</p>
                     </div>
@@ -150,9 +152,25 @@ export async function getServerSideProps({ params }) {
     .catch((err) => {
       console.log(err);
     });
+
+    const getGenre = await axios
+    .get(`http://localhost:3001/api/categorie/genre/only`)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => console.log(err));
+
+  const getCategories = await axios
+    .get(`http://localhost:3001/api/categorie/categorie/only`)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => console.log(err));
   return {
     props: {
       profil_item,
+      getGenre,
+      getCategories
     },
   };
 }

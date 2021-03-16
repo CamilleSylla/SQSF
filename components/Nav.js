@@ -24,7 +24,7 @@ export default function NavBar() {
 
          <ul>
             <li><Link href="/"><a>Accueil</a></Link></li>
-            <li><Link href="/market"><a>Catalogue</a></Link></li>
+            <li><Link href="/market/all"><a>Catalogue</a></Link></li>
             {user ? <li><Link href={`/dashboard/${user.id}`}><a>{user.society}</a></Link></li> : <li><Link href="/connection"><a>Connexion</a></Link></li>}
             <li><Link href="/panier"><a>Panier</a></Link></li>
             <li><Link href="/inscription_vendeur"><a>Insc Vendeur</a></Link></li>

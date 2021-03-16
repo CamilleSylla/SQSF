@@ -6,7 +6,8 @@ import { UserContext } from "../../../../context/userLog";
 import style from "../../../../styles/maindashboard.module.scss";
 import product from "../../../../styles/modifyproduct.module.scss";
 import { storage } from "../../../../firebase/firebase";
-export default function ModifyProduct({ item_m }) {
+
+export default function ModifyProduct({ item_m, getGenre, getCategorie }) {
   const [user, setUser] = useContext(UserContext);
   const [item, setItem] = useState(item_m);
   const [image, setImage] = useState({
@@ -19,88 +20,98 @@ export default function ModifyProduct({ item_m }) {
     switch (imageSelector) {
       case "PP":
         if (e.target.files[0]) {
-          setImage({...image, image1 : e.target.files[0]});
+          setImage({ ...image, image1: e.target.files[0] });
         }
         break;
       case "SP":
         if (e.target.files[0]) {
-          setImage({...image, image2 : e.target.files[0]});
+          setImage({ ...image, image2: e.target.files[0] });
         }
         break;
       case "TP":
         if (e.target.files[0]) {
-          setImage({...image, image3 : e.target.files[0]});
+          setImage({ ...image, image3: e.target.files[0] });
         }
         break;
-        default: 
+      default:
         console.log("image non valide");
     }
   };
 
-  const handleUpload = e => {
+  const handleUpload = (e) => {
     let uploadTask;
     switch (e.target.value) {
       case "PP":
-        
-        uploadTask = storage.ref(`images/${image.image1.name}`).put(image.image1);
+        uploadTask = storage
+          .ref(`images/${image.image1.name}`)
+          .put(image.image1);
         console.log(uploadTask);
         uploadTask.on(
-            "state_changed",
-            snapshot => {},
-            error => {console.log(error)},
-            () => {
-                storage
-                .ref("images")
-                .child(image.image1.name)
-                .getDownloadURL()
-                .then(url => {
-                  item.images[0] = url
-                  console.log(url);
-                })
-              }
-              )
-              break;
-              case "SP":
-                uploadTask = storage.ref(`images/${image.image2.name}`).put(image.image2);
-                uploadTask.on(
-                  "state_changed",
-                  snapshot => {},
-                  error => {console.log(error)},
-                  () => {
-                    storage
-                    .ref("images")
-                    .child(image.image2.name)
-                    .getDownloadURL()
-                    .then(url => {
-                      item.images[1] = url
-                      console.log(url);
-                    })
-                  }
-                  )
-                  break;
-                  case "TP":
-                    uploadTask = storage.ref(`images/${image.image3.name}`).put(image.image3);
-                    uploadTask.on(
-                      "state_changed",
-                      snapshot => {},
-                      error => {console.log(error)},
-                      () => {
-                        storage
-                        .ref("images")
-                        .child(image.image3.name)
-                        .getDownloadURL()
-                        .then(url => {
-                          item.images[2] = url
-                          console.log(url);
-                        })
-                      }
-                      )
-                      break;
-        default: 
+          "state_changed",
+          (snapshot) => {},
+          (error) => {
+            console.log(error);
+          },
+          () => {
+            storage
+              .ref("images")
+              .child(image.image1.name)
+              .getDownloadURL()
+              .then((url) => {
+                item.images[0] = url;
+                console.log(url);
+              });
+          }
+        );
+        break;
+      case "SP":
+        uploadTask = storage
+          .ref(`images/${image.image2.name}`)
+          .put(image.image2);
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {},
+          (error) => {
+            console.log(error);
+          },
+          () => {
+            storage
+              .ref("images")
+              .child(image.image2.name)
+              .getDownloadURL()
+              .then((url) => {
+                item.images[1] = url;
+                console.log(url);
+              });
+          }
+        );
+        break;
+      case "TP":
+        uploadTask = storage
+          .ref(`images/${image.image3.name}`)
+          .put(image.image3);
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {},
+          (error) => {
+            console.log(error);
+          },
+          () => {
+            storage
+              .ref("images")
+              .child(image.image3.name)
+              .getDownloadURL()
+              .then((url) => {
+                item.images[2] = url;
+                console.log(url);
+              });
+          }
+        );
+        break;
+      default:
         console.log("image non valide");
     }
-    
-} ;
+  };
 
   const onNameChange = (e) => {
     setItem({ ...item, name: e.target.value });
@@ -137,6 +148,12 @@ export default function ModifyProduct({ item_m }) {
   };
   const ondescriptionChange = (e) => {
     setItem({ ...item, description: e.target.value });
+  };
+  const ongenreChange = (e) => {
+    setItem({ ...item, genre: e.target.value });
+  };
+  const oncategorieChange = (e) => {
+    setItem({ ...item, categorie: e.target.value });
   };
 
   const Submit = (e) => {
@@ -176,8 +193,10 @@ export default function ModifyProduct({ item_m }) {
                   objectFit="cover"
                 />
               </div>
-              <input type="file"  onChange={e => handleChange(e, "PP")}/>
-              <button value="PP" onClick={handleUpload}>Remplacer</button>
+              <input type="file" onChange={(e) => handleChange(e, "PP")} />
+              <button value="PP" onClick={handleUpload}>
+                Remplacer
+              </button>
             </div>
             <div className={product.imagePic}>
               <div className={product.imageContainer}>
@@ -189,8 +208,10 @@ export default function ModifyProduct({ item_m }) {
                   objectFit="cover"
                 />
               </div>
-              <input type="file" onChange={e => handleChange(e, "SP")}/>
-              <button value="SP" onClick={handleUpload}>Remplacer</button>
+              <input type="file" onChange={(e) => handleChange(e, "SP")} />
+              <button value="SP" onClick={handleUpload}>
+                Remplacer
+              </button>
             </div>
             <div className={product.imagePic}>
               <div className={product.imageContainer}>
@@ -202,8 +223,10 @@ export default function ModifyProduct({ item_m }) {
                   objectFit="cover"
                 />
               </div>
-              <input type="file"  onChange={e => handleChange(e, "TP")}/>
-              <button value="TP" onClick={handleUpload}>Remplacer</button>
+              <input type="file" onChange={(e) => handleChange(e, "TP")} />
+              <button value="TP" onClick={handleUpload}>
+                Remplacer
+              </button>
             </div>
           </div>
           <div className={product.formModify}>
@@ -276,8 +299,26 @@ export default function ModifyProduct({ item_m }) {
                   (matiere) => matiere
                 )}`}
               />
-              <input type="text" placeholder="Catégorie" />
-              <input type="text" placeholder="Genre" />
+              <select onChange={oncategorieChange}>
+                <option value="">
+                  {item.categorie
+                    ? `Ce poduit est catégoriser sous " ${item.categorie} "`
+                    : "Veuillez une catégorie de produit"}
+                </option>
+                {getCategorie.map((cat) => {
+                  return <option value={cat.name}>{cat.name}</option>;
+                })}
+              </select>
+              <select onChange={ongenreChange}>
+                <option value="">
+                  {item.genre
+                    ? `Ce poduit est classer sous le genre " ${item.genre} "`
+                    : "Veuillez une genrer ce produit"}
+                </option>
+                {getGenre.map((genre) => {
+                  return <option value={genre.name}>{genre.name}</option>;
+                })}
+              </select>
               <button onClick={Submit}>Validé</button>
             </form>
           </div>
@@ -296,9 +337,26 @@ export async function getServerSideProps({ params }) {
     .catch((err) => {
       console.log(err);
     });
+
+  const getGenre = await axios
+    .get(`http://localhost:3001/api/categorie/genre/only`)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => console.log(err));
+
+  const getCategorie = await axios
+    .get(`http://localhost:3001/api/categorie/categorie/only`)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => console.log(err));
+
   return {
     props: {
       item_m,
+      getGenre,
+      getCategorie,
     },
   };
 }

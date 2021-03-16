@@ -21,7 +21,7 @@ export default function Home({ items }) {
 
 export async function getServerSideProps() {
   const items = await axios
-    .get("http://localhost:3001/api/inventary/all")
+    .get("http://localhost:3001/api/inventary/catalogue/all")
     .then((res) => {
       return res.data;
     })

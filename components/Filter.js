@@ -1,66 +1,99 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
 import style from "../styles/filter.module.scss";
 
-export default function Filter() {
-const [items, setItems] = useState()
-         
-     function SplitFilters (split) {
-        let finalKeys;
-        console.log(items);
-        //   item.forEach(keys => {
-        //    const key = Object.keys(keys)
-        //    console.log(key);
-        // })
-    }
-    
-    SplitFilters()
+export default function Filter({ isChecked, setIsChecked, cat, setItem }) {
+  function setFilter(e, cat) {
+    setIsChecked({ ...isChecked, [cat]: [e.target.value] });
+    console.log(isChecked);
+  }
 
-useEffect (() => {
+  function onSubmit() {
     axios
-    .get("http://localhost:3001/api/inventary/all_filters")
-    .then((res) => {
-        console.log(res);
-     setItems(res.data);
-     console.log(items);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-    SplitFilters()
-}, [])
-
-
+      .get(`http://localhost:3001/api/inventary/active/filters`, {
+        params: {
+          isChecked,
+        },
+      })
+      .then((res) => {
+        setItem(res.data);
+      });
+  }
 
   return (
     <>
       <div className={style.filter_container}>
         <div>
-          <p>Catégories</p>
+          <p className={style.filter_labels}>Catégories</p>
+          {cat.categories.map((cat) => {
+            return (
+              <ol>
+                <li>
+                  <input
+                    type="checkbox"
+                    id="scales"
+                    name="scales"
+                    value={cat}
+                    onClick={(e) => setFilter(e, "categorie")}
+                  />
+                  <label>{cat}</label>
+                </li>
+              </ol>
+            );
+          })}
+          <p className={style.filter_labels}>Vendeurs</p>
+          {cat.vendeurs.map((vendeur) => {
+            return (
+              <ol>
+                <li>
+                  <input
+                    type="checkbox"
+                    id="scales"
+                    name="scales"
+                    value={vendeur}
+                    onClick={(e) => setFilter(e, "vendeur")}
+                  />
+                  <label>{vendeur}</label>
+                </li>
+              </ol>
+            );
+          })}
+          <p className={style.filter_labels}>Marques</p>
+          {cat.brands.map((marques) => {
+            return (
+              <ol>
+                <li>
+                  <input
+                    type="checkbox"
+                    id="scales"
+                    name="scales"
+                    value={marques}
+                    onClick={(e) => setFilter(e, "brand")}
+                  />
+                  <label>{marques}</label>
+                </li>
+              </ol>
+            );
+          })}
+          <p className={style.filter_labels}>Genre</p>
+          {cat.genre.map((genre) => {
+            return (
+              <ol>
+                <li>
+                  <input
+                    type="checkbox"
+                    id="scales"
+                    name="scales"
+                    value={genre}
+                    onClick={(e) => setFilter(e, "genre")}
+                  />
+                  <label>{genre}</label>
+                </li>
+              </ol>
+            );
+          })}
         </div>
-        <div>
-          <p>Types</p>
-        </div>
-        <div>
-          <p>Marques</p>
-          <ol>
-            <li>
-              <input type="checkbox" id="scales" name="scales" />
-              <label for="scales">Marque</label>
-            </li>
-          </ol>
-        </div>
-        <div>
-          <p>Vendeurs</p>
-          <ol>
-            <li>
-              <input type="checkbox" id="scales" />
-              <label>Vendeur</label>
-            </li>
-          </ol>
-        </div>
+      <div onClick={() => onSubmit()}>Appliquer les filtres</div>
       </div>
     </>
   );
 }
-
