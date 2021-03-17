@@ -2,6 +2,7 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import axios from "axios";
 import HeroBanner from "../components/HeroBanner";
+import Rayons from "../components/homeRayon";
 
 export default function Home({ items }) {
 
@@ -14,6 +15,7 @@ export default function Home({ items }) {
 
       <div>
         <HeroBanner/>
+        <Rayons/>
       </div>
     </>
   );

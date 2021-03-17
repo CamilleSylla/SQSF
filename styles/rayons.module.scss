@@ -1,0 +1,58 @@
+.rayon_container{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+    .rayon_content_wrapper {
+        width: 60%;
+        height: 70%;
+        display: flex;
+        justify-content: space-between;
+        .rayon_sectionning {
+            width: 49%;
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            flex-direction: column;
+            .rayon_big_article {
+                width: 100%;
+                height: 65%;
+                background-size: cover;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                &:first-of-type {
+                    background-image: url("../public/mode.webp");
+                }
+                &:last-of-type {
+                    background-image: url("../public/electro.webp");
+                }
+                .text_wrapper {
+                    width: 80%;
+                    height: 40%;
+                    background-color: burlywood;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-evenly;
+                    * {
+                        margin-left: 20px;
+                    }
+                }
+            }
+            .rayon_short_article {
+                width: 100%;
+                height: 32%;
+                background-color: burlywood;
+                background-size: cover;
+                &:first-of-type {
+                    background-image: url("../public/book.webp");
+                }
+                &:last-of-type {
+                    background-image: url("../public/salon.webp");
+                }
+            }
+        }
+    }
+}
