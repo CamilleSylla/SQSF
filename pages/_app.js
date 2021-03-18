@@ -1,6 +1,6 @@
 import Layout from "../components/Layout";
 import { UserProvider } from "../context/userLog";
-import "../styles/globals.css";
+import "../styles/globals.scss";
 
 function MyApp({ Component, pageProps }) {
   return (

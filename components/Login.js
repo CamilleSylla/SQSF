@@ -22,15 +22,16 @@ export default function Login() {
       .post("http://localhost:3001/api/user/auth/connexion/vendeur", connect)
       .then((res) =>
         setUser({
+          isLoggedIn: true,
           id: res.data.id,
           society: res.data.society,
           token: res.headers.vendeur_auth_token,
           profile_picture: res.data.profile_picture,
-          banniere_picture: res.data.banniere_picture
+          banniere_picture: res.data.banniere_picture,
         })
       )
       .catch((err) => console.log(err));
-      e.preventDefault()
+    e.preventDefault();
   };
 
   return (
@@ -55,11 +56,13 @@ export default function Login() {
             />
           </div>
           <input
+            className="input_neumorph"
             type="email"
             onChange={onEmailChange}
             placeholder="Adresse e-mail"
           />
           <input
+            className="input_neumorph"
             type="password"
             onChange={onPasswordChange}
             placeholder="Mot de passe"

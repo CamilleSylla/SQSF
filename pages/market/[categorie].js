@@ -25,7 +25,7 @@ export default function Market({ itemsAll, filters }) {
           </article>
         </section>
         <div className={style.filter_and_search}>
-          <input type="text" onChange={(e) => setSearch(e.target.value)} />
+          <input className="input_neumorph" placeholder="Recherche" type="text" onChange={(e) => setSearch(e.target.value)} />
             <div className={style.display_filter} onClick={() => setToogleFilter(!toogleFilter)}>{toogleFilter == true ? "Annuler" :  "+ Afficher les filtres"}</div>
         </div>
 

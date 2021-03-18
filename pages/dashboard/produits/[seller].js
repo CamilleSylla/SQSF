@@ -107,36 +107,6 @@ export default function ProduitsVendeurProfil({ profil_item, getGenre, getCatego
                 );
               })}
           </div>
-
-          {/* <table className={component.table_wrapper}>
-            <tr>
-              <th>Identifiant</th>
-              <th>Nom du produit</th>
-              <th>Marque</th>
-              <th>Prix</th>
-              <th>Categorie</th>
-              <th>Promotion</th>
-              <th>Action</th>
-            </tr>
-            
-            {profil_item.map((items) => {
-              return (
-                <tr className={component.table_data}>
-                  <th>{items._id}</th>
-                  <th>{items.name}</th>
-                  <th>{items.brand}</th>
-                  <th>{items.price}€</th>
-                  <th>Catégory</th>
-                  <th>{items.promotion}</th>
-                  <Link href={`/dashboard/produits/modify/${items._id}`}>
-                  <th>...</th>
-                  </Link>
-                </tr>
-              );
-            })}
-            
-            
-          </table> */}
         </div>
       </div>
     </>

@@ -54,37 +54,68 @@ export default function VendeurInscription() {
     <>
       <form className={style.form_container} onSubmit={Submit}>
         <label>Représentant</label>
-        <input type="text" placeholder="Nom" onChange={onNameChange} />
-        <input type="text" placeholder="Prénom" onChange={onLastNameChange} />
+        <input
+          className="input_neumorph"
+          type="text"
+          placeholder="Nom"
+          onChange={onNameChange}
+        />
+        <input
+          className="input_neumorph"
+          type="text"
+          placeholder="Prénom"
+          onChange={onLastNameChange}
+        />
         <input
           type="email"
           placeholder="Adresse email"
           onChange={onEmailChange}
+          className="input_neumorph"
         />
         <input
           type="password"
           placeholder="Mot de passe"
           onChange={onPasswordChange}
+          className="input_neumorph"
         />
         <label>Société</label>
         <input
           type="text"
           placeholder="Nom de la société"
           onChange={onSocietyChange}
+          className="input_neumorph"
         />
         <input
           type="Number"
           placeholder="N° de SIRET"
           onChange={onSiretChange}
+          className="input_neumorph"
         />
         <input
           type="text"
           placeholder="Adresse du siège social"
           onChange={onSiegeChange}
+          className="input_neumorph"
         />
-        <input type="text" placeholder="Ville" onChange={onCityChange} />
-        <input type="text" placeholder="Code Postal" onChange={onCPChange} />
-        <input type="submit" value="M'inscrire" className={style.form_submit} />
+        <input
+          className="input_neumorph"
+          type="text"
+          placeholder="Ville"
+          onChange={onCityChange}
+        />
+
+        <input
+          className="input_neumorph"
+          type="text"
+          placeholder="Code Postal"
+          onChange={onCPChange}
+        />
+        <input
+          className="input_neumorph"
+          type="submit"
+          value="M'inscrire"
+          className={style.form_submit}
+        />
       </form>
     </>
   );
