@@ -1,7 +1,15 @@
 import Image from "next/image";
 import VendeurInscription from "../components/VendeurIncription";
 import style from "../styles/inscrivend.module.scss";
+import { useRouter } from 'next/router'
+import axios from "axios";
 export default function VendeurInsc() {
+  const router =  useRouter()
+  const code = router.query.code
+
+  // useEffect(() => {
+  //   axios.get
+  // })
   return (
     <>
       <div className={style.inscri_vend_wrapper}>
@@ -20,9 +28,11 @@ export default function VendeurInsc() {
               objectFit="cover"
             />
           </div>
-          <VendeurInscription />
+          <VendeurInscription stripe={code}/>
         </div>
       </div>
     </>
   );
 }
+
+

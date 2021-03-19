@@ -16,6 +16,7 @@ export default function Home({ items }) {
       <div>
         <HeroBanner/>
         <Rayons/>
+        
       </div>
     </>
   );

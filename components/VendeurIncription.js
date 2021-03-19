@@ -3,7 +3,7 @@ import style from "../styles/sellerregister.module.scss";
 
 import axios from "axios";
 
-export default function VendeurInscription() {
+export default function VendeurInscription({stripe}) {
   const [submit, setSubmit] = useState({
     society: "",
     email: "",
@@ -45,8 +45,10 @@ export default function VendeurInscription() {
   };
 
   const Submit = (e) => {
+    e.preventDefault()
+    console.log(submit);
     axios
-      .post("http://localhost:3001/api/user/inscription/vendeur", submit)
+      .post(`http://localhost:3001/api/user/auth/stripe/${stripe}`, submit)
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
   };
