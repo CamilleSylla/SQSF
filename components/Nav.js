@@ -3,9 +3,11 @@ import React, { useContext, useEffect } from "react";
 import style from "../styles/nav.module.scss";
 import Link from "next/link";
 import { UserContext } from "../context/userLog";
+import { CartContext } from "../context/cartContext";
 
 export default function NavBar() {
   const [user, setUser] = useContext(UserContext);
+  const [cart, setCart] = useContext(CartContext)
 
   return (
     <>
@@ -34,8 +36,8 @@ export default function NavBar() {
               </Link>
             </li>
             <li>
-              <Link href="/inscription_vendeur">
-                <a>Insc Vendeur</a>
+              <Link href="/register">
+                <a>M'enregistrer</a>
               </Link>
             </li>
           </ul>
@@ -62,6 +64,8 @@ export default function NavBar() {
             </Link>
             <Link  href="/panier">
             <div className={style.nav_button}>
+              {cart.length > 0 ? <div className={style.notif}>{cart.length}</div> : null}
+              
               <Image
                 src="/bag.svg"
                 alt="Recherche"

@@ -1,10 +1,34 @@
 import Image from "next/image";
+import { useContext, useEffect, useState } from "react";
+import { CartContext } from "../context/cartContext";
 import styles from "../styles/iteminfos.module.scss";
 
 
 
 export default function ItemInfos({item}) {
-  console.log(item);
+  
+  const [cart, setCart ] = useContext(CartContext)
+  const [picked, setPicked] =  useState({
+    item_id : item._id,
+    name: item.name,
+    vendeur: item.vendeur,
+    size: null,
+    image: item.images[0],
+    price: item.price,
+    quantity: null
+  })
+
+  function AddCart () {
+    cart.push(picked)
+    console.log(cart);
+  }
+
+  const onSizePicked = e => {
+    setPicked({...picked, size: e.target.value})
+  }
+  const onQuantityPicked = e => {
+    setPicked({...picked, quantity: e.target.value})
+  }
   return (
     <>
       <section className={styles.iteminfos}>
@@ -51,16 +75,16 @@ export default function ItemInfos({item}) {
             {item.matiere.map(mat => <p>{mat}</p>)}
           </div>
           <div className={styles.sizing_wrapper}>
-            <button>XS</button>
-            <button>S</button>
-            <button>M</button>
-            <button>L</button>
-            <button>XL</button>
+            <button value="xs" onClick={onSizePicked}>XS</button>
+            <button value="s" onClick={onSizePicked}>S</button>
+            <button value="m" onClick={onSizePicked}>M</button>
+            <button value="l" onClick={onSizePicked}>L</button>
+            <button value="xl" onClick={onSizePicked}>XL</button>
           </div>
           <div className={styles.final_operations_wrapper}>
             <div className={styles.final_operations}>
-              <input type="number" placeholder="1" />
-              <button>Ajouter au panier</button>
+              <input type="number" placeholder="1" onChange={onQuantityPicked}/>
+              <button onClick={() => AddCart()}>Ajouter au panier</button>
             </div>
             <p>Partager cette article</p>
           </div>

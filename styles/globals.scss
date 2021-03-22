@@ -53,6 +53,20 @@ a {
 input {
   outline: none;
 }
+
+.global_button {
+  display: flex;
+  border-radius: 5%;
+  justify-content: center;
+  align-items: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  box-shadow:  3px 3px 5px #a1a1a1,
+             -5px -5px 5px #ffffff;
+
+}
 .more_btn {
   width: 120px;
   height: 120px;
@@ -62,6 +76,17 @@ input {
   text-align: center;
   text-transform: uppercase;
   cursor: pointer;
+}
+.round_btn {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow:  3px 3px 5px #a1a1a1,
+             -5px -5px 5px #ffffff;
 }
 
 .stripe-connect {

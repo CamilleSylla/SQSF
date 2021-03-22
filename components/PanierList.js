@@ -1,7 +1,10 @@
 import Image from "next/image";
+import { useContext } from "react";
+import { CartContext } from "../context/cartContext";
 import style from "../styles/panierlist.module.scss";
 
 export default function PanierList() {
+  const [cart, setCart ] = useContext(CartContext)
   return (
     <>
       <table className={style.tableau}>
@@ -12,32 +15,40 @@ export default function PanierList() {
           <th>Prix Unité TTC</th>
           <th>Prix Total</th>
         </tr>
-        <tr>
+        {cart.map(items => {
+
+          const {image, name, quantity, size, vendeur, price} = items
+
+          return (
+<tr>
           <th className={style.product}>
             <div>
               <Image
-                src="/image.svg"
-                alt="product"
+                src={image ? image : '/image.svg'}
+                alt={name}
                 layout="fill"
                 sizes="100%"
                 objectFit="cover"
               />
             </div>
-            Product Name
+            {name}
           </th>
           <th className={style.quantite}>
-              <input type='number' value="1"/>
+              <input type='number' placeholder={quantity}/>
           </th>
           <th>
-              Nom du revendeur
+              {vendeur}
           </th>
           <th>
-              20.90€
+              {price}€
           </th>
           <th>
-              20.90€
+              {price * quantity}€
           </th>
         </tr>
+          )
+        })}
+        
       </table>
     </>
   );

@@ -71,7 +71,7 @@ export default function Paiment () {
                     Debuter le configuration de stripe
                 </button>
                 <p> By clicking setup you agree to the TOS for Stripe</p>
-                <a href="https://dashboard.stripe.com/oauth/authorize?response_type=code&client_id=ca_J3LzqEAjCcRQ8l5cUVfhCwzBD42UDPY5&scope=read_write" class="stripe-connect"><span>Connect with</span></a>
+                
             </div>
         )
     }
