@@ -3,11 +3,13 @@ import { useContext, useState } from "react";
 import { UserContext } from "../context/userLog";
 import style from "../styles/createarticle.module.scss";
 import { storage } from "../firebase/firebase";
+import SimulateurPrix from "./SimulateurPrix";
 
 export default function CreateArticle({ getGenre, getCategories}) {
   const [user, setUser] = useContext(UserContext);
   const [item, setItem] = useState({
     vendeur: user.society,
+    vendeur_id: user.id,
     images: [],
   });
 
@@ -123,6 +125,8 @@ export default function CreateArticle({ getGenre, getCategories}) {
             step="0.01"
             placeholder="Prix"
           />
+          {item.price ? <SimulateurPrix price={item.price}/> : null}
+          
           <input
             type="number"
             onChange={onpromotionChange}

@@ -6,6 +6,7 @@ import { useState } from "react";
 import CreateArticle from "../../../components/CreateArticle";
 import Link from "next/link";
 import Image from "next/image";
+import SimulateurPrix from "../../../components/SimulateurPrix";
 export default function ProduitsVendeurProfil({ profil_item, getGenre, getCategories }) {
   const [hide, setHide] = useState(true);
   const [search, setSearch] = useState("");

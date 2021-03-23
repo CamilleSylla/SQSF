@@ -16,7 +16,7 @@ export default function Home({ items }) {
       <div>
         <HeroBanner/>
         <Rayons/>
-        
+        <script src="https://js.stipe.com/v3/"></script>
       </div>
     </>
   );

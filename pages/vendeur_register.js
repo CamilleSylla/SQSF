@@ -83,7 +83,7 @@ export default function VendeurRegister() {
               paiments.
             </p>
             <a
-              href="https://dashboard.stripe.com/oauth/authorize?response_type=code&client_id=ca_J3LzqEAjCcRQ8l5cUVfhCwzBD42UDPY5&scope=read_write"
+              href="https://dashboard.stripe.com/express/oauth/authorize?response_type=code&client_id=ca_J3LzqEAjCcRQ8l5cUVfhCwzBD42UDPY5&scope=read_write"
               class="stripe-connect"
             >
               <span>Connexion à</span>
