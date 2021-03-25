@@ -5,6 +5,11 @@ import style from "../styles/panierlist.module.scss";
 
 export default function PanierList() {
   const [cart, setCart ] = useContext(CartContext)
+  
+
+  const onQuantityChange = e => {
+    setCart({...cart, quantity: e.target.value})
+  }
   return (
     <>
       <table className={style.tableau}>
@@ -34,7 +39,7 @@ export default function PanierList() {
             {name}
           </th>
           <th className={style.quantite}>
-              <input type='number' placeholder={quantity}/>
+              <input type='number' placeholder={quantity} onChange={onQuantityChange}/>
           </th>
           <th>
               {vendeur}

@@ -9,6 +9,7 @@ export default function Chart () {
         <>
         <Head>
             <title> SQMarket - Panier</title>
+            {/* <script src="https://js.stipe.com/v3/"></script> */}
         </Head>
         <div className={style.panier_wrapper}>
         <section className={style.pages_header}>

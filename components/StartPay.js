@@ -1,40 +1,119 @@
 import style from "../styles/startpay.module.scss";
 import Link from "next/link";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { CartContext } from "../context/cartContext";
-import {loadStripe} from '@stripe/stripe-js';
-import React from 'react';
-import ReactDOM from 'react-dom';
+import { loadStripe } from "@stripe/stripe-js";
+import React from "react";
+import ReactDOM from "react-dom";
 import {
   CardElement,
   Elements,
   useStripe,
   useElements,
-} from '@stripe/react-stripe-js';
+} from "@stripe/react-stripe-js";
+import axios from "axios";
 
 const CheckoutForm = () => {
+  const [succeeded, setSucceeded] = useState(false);
+  const [error, setError] = useState(null);
+  const [processing, setProcessing] = useState("");
+  const [disabled, setDisabled] = useState(true);
+  const [clientSecret, setClientSecret] = useState("");
   const stripe = useStripe();
   const elements = useElements();
+  const [cart, setCart] = useContext(CartContext);
+  const [request, setRequest] = useState({
+    cart: cart,
+  });
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const {error, paymentMethod} = await stripe.createPaymentMethod({
-      type: 'card',
-      card: elements.getElement(CardElement),
-    });
+  const cardStyle = {
+    style: {
+      base: {
+        color: "#32325d",
+        fontFamily: "Arial, sans-serif",
+        fontSmoothing: "antialiased",
+        fontSize: "16px",
+        "::placeholder": {
+          color: "#32325d",
+        },
+      },
+      invalid: {
+        color: "#fa755a",
+        iconColor: "#fa755a",
+      },
+    },
+  };
+  const handleChange = async (event) => {
+    // Listen for changes in the CardElement
+    // and display any errors as the customer types their card details
+    setDisabled(event.empty);
+    setError(event.error ? event.error.message : "");
   };
 
+  const handleSubmit = async (ev) => {
+    ev.preventDefault();
+    setProcessing(true);
+    const card = elements.getElement(CardElement);
+    const result = await stripe.createToken(card);
+    if (result.error) {
+      setError(`Payment failed ${result.error.message}`);
+      setProcessing(false);
+      console.log(result.error.message);
+    } else {
+      setError(null);
+      setProcessing(false);
+      setSucceeded(true);
+      setRequest({ ...request, source: result.token.id });
+    }
+  };
+  useEffect(() => {
+    if (request.source) {
+      axios
+        .post(`http://localhost:3001/api/payments/donate`, request)
+        .then((res) => {
+          console.log(res);
+        });
+    }
+  });
+
   return (
-    <form onSubmit={handleSubmit}>
-      <CardElement />
-      <button type="submit" disabled={!stripe}>
-        Pay
+    <form id="payment-form" onSubmit={handleSubmit}>
+      <CardElement
+        id="card-element"
+        options={cardStyle}
+        onChange={handleChange}
+      />
+      <button disabled={processing || disabled || succeeded} id="submit">
+        <span id="button-text">
+          {processing ? (
+            <div className="spinner" id="spinner"></div>
+          ) : (
+            "Proceder à l'achat"
+          )}
+        </span>
       </button>
+      {/* Show any error that happens when processing the payment */}
+      {error && (
+        <div className="card-error" role="alert">
+          {error}
+        </div>
+      )}
+      {/* Show a success message upon completion */}
+      <p className={succeeded ? "result-message" : "result-message hidden"}>
+        Payment succeeded, see the result in your
+        <a href={`https://dashboard.stripe.com/test/payments`}>
+          {" "}
+          Stripe dashboard.
+        </a>{" "}
+        Refresh the page to pay again.
+      </p>
     </form>
   );
 };
 
-const stripePromise = loadStripe('pk_test_51Hj2udHo7ReTdVEbKASgLHcv76Pj52W7arFj6RhcsTGDk53hTLZJUJf5Ukm94BTyhH2b1CUDz73KPpiQW4BnUakl00ZOqxnheU');
+const stripePromise = loadStripe(
+  "pk_test_51Hj2udHo7ReTdVEbKASgLHcv76Pj52W7arFj6RhcsTGDk53hTLZJUJf5Ukm94BTyhH2b1CUDz73KPpiQW4BnUakl00ZOqxnheU"
+);
 
 export default function StartPay() {
   const [cart, setCart] = useContext(CartContext);
@@ -47,10 +126,10 @@ export default function StartPay() {
         const math = item.price * item.quantity;
         Accumulator.push(math);
       });
-       const result = Accumulator.reduce(reducer);
-       return result;
+      const result = Accumulator.reduce(reducer);
+      return result;
     } else {
-      return null 
+      return null;
     }
   }
   return (
@@ -70,7 +149,7 @@ export default function StartPay() {
             <p>{CartAmount()}€</p>
           </div>
           <Elements stripe={stripePromise}>
-            <CheckoutForm/>
+            <CheckoutForm />
           </Elements>
         </div>
       </div>
