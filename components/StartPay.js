@@ -24,7 +24,16 @@ const CheckoutForm = () => {
   const [cart, setCart] = useContext(CartContext);
   const [request, setRequest] = useState({
     cart: cart,
+    client_secret : null
   });
+  const  [client, setClient] = useState({
+    name: "Camille",
+    lastname: "Sylla",
+    adress: "8 square du moulin l'évêque",
+    city: "Le Mans",
+    cp: "02100",
+    cart: cart
+  })
 
   const cardStyle = {
     style: {
@@ -53,8 +62,16 @@ const CheckoutForm = () => {
   const handleSubmit = async (ev) => {
     ev.preventDefault();
     setProcessing(true);
+    console.log(request.client_secret);
     const card = elements.getElement(CardElement);
-    const result = await stripe.createToken(card);
+    const result = await stripe.confirmCardPayment(request.client_secret, {
+      payment_method: {
+        card: card,
+        billing_details: {
+          name: `${client.name} ${client.lastname}`
+        }
+      }
+    });
     if (result.error) {
       setError(`Payment failed ${result.error.message}`);
       setProcessing(false);
@@ -63,10 +80,18 @@ const CheckoutForm = () => {
       setError(null);
       setProcessing(false);
       setSucceeded(true);
-      setRequest({ ...request, source: result.token.id });
+      console.log("succed");
+      axios.post(`http://localhost:3001/api/order/create`, client)
+      .then(res => console.log(res.data))
     }
   };
   useEffect(() => {
+axios.post(`http://localhost:3001/api/payments/payment_intent`, {cart})
+.then(res =>{ 
+  setRequest({...request, client_secret : res.data.client_secret})
+  console.log(request.client_secret);
+})
+
     if (request.source) {
       axios
         .post(`http://localhost:3001/api/payments/donate`, request)
@@ -74,7 +99,7 @@ const CheckoutForm = () => {
           console.log(res);
         });
     }
-  });
+  },[]);
 
   return (
     <form id="payment-form" onSubmit={handleSubmit}>
