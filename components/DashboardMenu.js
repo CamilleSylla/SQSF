@@ -23,7 +23,7 @@ export default function DashboardMenu () {
             </div>
             <ul>
                 <li><Link href={`/dashboard/${user.society}`}><a>Tableau de bord</a></Link></li>
-                <li>Commandes</li>
+                <li><Link href={`/dashboard/commandes/${user.id}`}><a>Commandes</a></Link></li>
                 <li><Link href={`/dashboard/produits/${user.society}`}><a>Produits</a></Link></li>
                 <li>Rapports</li>
                 <li><Link href={`/dashboard/profil_info/${user.society}`}><a>Profil</a></Link></li>

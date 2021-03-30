@@ -81,8 +81,6 @@ const CheckoutForm = () => {
       setError(null);
       setProcessing(false);
       setSucceeded(true);
-      setClient({...client, pi_id: result.paymentIntent.id})
-      console.log("succed : ", result.paymentIntent.id);
       axios.post(`http://localhost:3001/api/order/create`, {...client, pi_id: result.paymentIntent.id})
       .then(res => console.log(res.data))
     }
