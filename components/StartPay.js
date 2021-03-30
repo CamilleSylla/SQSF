@@ -32,7 +32,8 @@ const CheckoutForm = () => {
     adress: "8 square du moulin l'évêque",
     city: "Le Mans",
     cp: "02100",
-    cart: cart
+    cart: cart,
+    pi_id: null
   })
 
   const cardStyle = {
@@ -80,8 +81,9 @@ const CheckoutForm = () => {
       setError(null);
       setProcessing(false);
       setSucceeded(true);
-      console.log("succed");
-      axios.post(`http://localhost:3001/api/order/create`, client)
+      setClient({...client, pi_id: result.paymentIntent.id})
+      console.log("succed : ", result.paymentIntent.id);
+      axios.post(`http://localhost:3001/api/order/create`, {...client, pi_id: result.paymentIntent.id})
       .then(res => console.log(res.data))
     }
   };

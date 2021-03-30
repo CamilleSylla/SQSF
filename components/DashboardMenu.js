@@ -14,7 +14,7 @@ export default function DashboardMenu () {
         <div className={style.dashboard_menu_wrapper}>
             <div className={style.dashboard_pp_wrapper}>
                 <Image
-                  src={user.profile_picture ? user.profile_picture : "/image.png"}
+                  src={user.profile_picture ? user.profile_picture : "/image.svg"}
                   alt="profile picture"
                   layout="fill"
                   sizes="100%"
