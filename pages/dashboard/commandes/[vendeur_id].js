@@ -2,6 +2,7 @@ import axios from "axios";
 import DashboardMenu from "../../../components/DashboardMenu";
 import style from "../../../styles/maindashboard.module.scss";
 import Image from "next/image";
+import DashboardHeader from "../../../components/DashboardHeader";
 
 export default function Commande({ commandes }) {
   const orderMonth = commandes.map(commande => {
@@ -23,6 +24,7 @@ export default function Commande({ commandes }) {
         <DashboardMenu />
 
         <div className={style.el_wrapper}>
+          <DashboardHeader/>
           <div className="dashboard_top_cards_container">
             <div className="top_cards">
             <div className="nav_button">

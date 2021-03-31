@@ -71,6 +71,14 @@ white: #F2F3F8
             flex-direction: column;
             justify-content: space-evenly;
             align-items: center;
+            .size {
+                width: 80%;
+                tbody {
+                    th {
+                        font-weight: 400;
+                    }
+                }
+            }
             .user {
                 display: flex;
                 flex-direction: column;
