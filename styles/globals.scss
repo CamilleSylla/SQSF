@@ -10,7 +10,7 @@ body {
   margin: 0;
   font-family: "Poppins", sans-serif;
   color: #2a324b;
-  background-color: #f2f3f8;
+  background-color: #e7e9f0;
 }
 button {
   font-family: "Poppins", sans-serif;
@@ -86,36 +86,78 @@ input {
   box-shadow: 3px 3px 5px #a1a1a1, -5px -5px 5px #ffffff;
 }
 
-.list {
-  min-width: 400px;
-  border-collapse: collapse;
-  margin: 25px 0;
-  font-size: 0.9em;
-  border-radius: 5px 5px 0 0;
-  overflow: hidden;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-  thead{
-    tr {
-      background-color: lightgrey;
-      text-align: left;
-    }
+.dashboard_top_cards_container {
+  height: 20%;
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .top_cards {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    border-radius: 15px;
+    overflow: hidden;
+    width: 30%;
+    height: 80%;
+    box-shadow: 4px 4px 8px rgba(190, 190, 190, 1),
+            -4px -4px 8px rgba(255, 255, 255, 1);
   }
-  th, td {
-    padding: 12px 15px;
-  }
-  tbody {
-    tr {
-      border-bottom: 1px solid lightgrey;
-      &:nth-of-type(even){
-        background-color: #d3d9eeaf;
+}
+.nav_button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow:  3px 3px 5px #a1a1a1,
+       -5px -5px 5px #ffffff;
       }
-      &:last-of-type{
-        border-bottom: 2px solid #2a324b;
-
+.main_list_container{
+  // width: auto;
+  // display: flex;
+  // justify-content: space-evenly;
+  // align-items: center;
+  .list {
+    display: block;
+    background-color: greenyellow;
+    min-width: 40%;
+    max-width: 50%;
+    border-collapse: collapse;
+    overflow: hidden;
+    margin: 25px 0;
+    font-size: 0.9em;
+    border-radius: 5px 5px 0 0;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    thead{
+      tr {
+        background-color: lightgrey;
+        text-align: left;
+      }
+    }
+    th, td {
+      padding: 12px 15px;
+    }
+    tbody {
+      display: block;
+    overflow-y: scroll;
+    height: 200px;
+      tr {
+        border-bottom: 1px solid lightgrey;
+        &:nth-of-type(even){
+          background-color: #d3d9eeaf;
+        }
+        &:last-of-type{
+          border-bottom: 2px solid #2a324b;
+  
+        }
       }
     }
   }
 }
+
 
 .stripe-connect {
   background: #635bff;
