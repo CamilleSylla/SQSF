@@ -16,6 +16,10 @@ export default function ProduitsVendeurProfil({
   const [hide, setHide] = useState(true);
   const [search, setSearch] = useState("");
   const [target, setTarget] = useState(null);
+  const [select, setSelect] = useState({
+    selected: [],
+    token: null
+  })
 
   function format(n) {
     return (n < 10 ? "0" : "") + n;
@@ -84,7 +88,6 @@ export default function ProduitsVendeurProfil({
     );
   }
   function fontColor(num) {
-    console.log(typeof num);
     if (num < 10 && num >= 5) {
       return "orange";
     } else if (num < 5) {
@@ -93,20 +96,26 @@ export default function ProduitsVendeurProfil({
       return "green";
     }
   }
-  useEffect(() => {
-    fontColor();
-  });
 
-  const Search = (e) => {
-    setSearch(e.target.value);
-  };
+  const onSelect = e => {
+    const target = document.getElementById(e.target.value)
+    const find = select.selected.find(id => id == target.value)
+    if (find) {
+      const index = select.selected.indexOf(target.value)
+      select.selected.splice(index, 1)
+    } else {
+      select.selected.push(target.value)
+    }
+    console.log(select.selected);
+  }
+
   return (
     <>
       <div className={style.dashboard_wrapper}>
         <DashboardMenu />
 
         <div className={style.el_wrapper}>
-          <DashboardHeader />
+          <DashboardHeader item={profil_item} select={select} target={target} search={setSearch} />
           <div className="dashboard_top_cards_container">
             <div className="top_cards">
               <div className="nav_button">
@@ -173,29 +182,44 @@ export default function ProduitsVendeurProfil({
                 </tr>
               </thead>
               <tbody>
-                {profil_item.map((item, i) => {
-                  const d = new Date(item.date);
-                  return (
-                    <tr key={i} onClick={() => itemVue(item._id)}>
-                      <td>
-                        <p>{item.name}</p>
-                      </td>
-                      <td>
-                        <p>{item.price}€</p>
-                      </td>
-                      <td>
-                        <p>
-                          {d.toLocaleDateString() +
-                            " à " +
-                            d.toLocaleTimeString()}
-                        </p>
-                      </td>
-                      <td>
-                        <input type="checkbox" />
-                      </td>
-                    </tr>
-                  );
-                })}
+                {profil_item
+                  .filter((filtered) => {
+                    if (search == "") {
+                      return filtered;
+                    } else if (
+                      filtered.name
+                        .toLowerCase()
+                        .includes(search.toLocaleLowerCase()) ||
+                      filtered.brand
+                        .toLowerCase()
+                        .includes(search.toLocaleLowerCase())
+                    ) {
+                      return filtered;
+                    }
+                  })
+                  .map((item, i) => {
+                    const d = new Date(item.date);
+                    return (
+                      <tr key={i} onClick={() => itemVue(item._id)}>
+                        <td>
+                          <p>{item.name} </p>
+                        </td>
+                        <td>
+                          <p>{item.price}€</p>
+                        </td>
+                        <td>
+                          <p>
+                            {d.toLocaleDateString() +
+                              " à " +
+                              d.toLocaleTimeString()}
+                          </p>
+                        </td>
+                        <td>
+                          <input type="checkbox" id={item._id} value={item._id} onChange={onSelect}/>
+                        </td>
+                      </tr>
+                    );
+                  })}
               </tbody>
             </table>
             <div className={style.card_info_container}>
@@ -211,7 +235,7 @@ export default function ProduitsVendeurProfil({
                     />
                   </div>
                   <h6 style={{ marginTop: "10px" }}>
-                    {target ? target.name : null}
+                    {target ? target.name + " - " + target.brand : null}
                   </h6>
                   <p>{target ? target.price : null}€</p>
                 </div>

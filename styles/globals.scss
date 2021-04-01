@@ -2,6 +2,8 @@
 deepgrey: #2A324B
 grey: #8E92A4
 white: #F2F3F8
+orange : #F2C36B
+red : #D77373
  */
 
 html,
@@ -100,6 +102,37 @@ input {
     overflow: hidden;
     width: 30%;
     height: 80%;
+    box-shadow: 4px 4px 8px rgba(190, 190, 190, 1),
+            -4px -4px 8px rgba(255, 255, 255, 1);
+  }
+}
+.dashboard_action{
+  position: absolute;
+  width: 38%;
+  left: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  input {
+    height: 30px;
+  }
+  .action_button {
+    width: 100px;
+    height: 40px;
+    border: none;
+    border-radius: 15px;
+  }
+  .orange {
+    color: #d68d05;
+    border: 2px solid #d68d05;
+    background-color: #f0d39d73;
+    box-shadow: 4px 4px 8px rgba(190, 190, 190, 1),
+            -4px -4px 8px rgba(255, 255, 255, 1);
+  }
+  .red {
+    color: rgb(155, 14, 14);
+    border: 2px solid rgb(155, 14, 14);
+    background-color: #d7737354;
     box-shadow: 4px 4px 8px rgba(190, 190, 190, 1),
             -4px -4px 8px rgba(255, 255, 255, 1);
   }
