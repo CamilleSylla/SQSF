@@ -108,7 +108,7 @@ input {
 }
 .dashboard_action{
   position: absolute;
-  width: 38%;
+  width: 48%;
   left: 50px;
   display: flex;
   justify-content: space-between;
@@ -133,6 +133,13 @@ input {
     color: rgb(155, 14, 14);
     border: 2px solid rgb(155, 14, 14);
     background-color: #d7737354;
+    box-shadow: 4px 4px 8px rgba(190, 190, 190, 1),
+            -4px -4px 8px rgba(255, 255, 255, 1);
+  }
+  .blue {
+    color: rgb(0, 19, 83);
+    border: 2px solid rgb(0, 19, 83);
+    background-color: rgba(0, 19, 83, 0.267);
     box-shadow: 4px 4px 8px rgba(190, 190, 190, 1),
             -4px -4px 8px rgba(255, 255, 255, 1);
   }

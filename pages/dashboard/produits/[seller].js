@@ -20,6 +20,7 @@ export default function ProduitsVendeurProfil({
     selected: [],
     token: null
   })
+  const [addItem, setAddItem] = useState(true)
 
   function format(n) {
     return (n < 10 ? "0" : "") + n;
@@ -109,13 +110,82 @@ export default function ProduitsVendeurProfil({
     console.log(select.selected);
   }
 
+  function infoOrAdd () {
+    switch (addItem) {
+      case (true) : 
+      return (
+<div className={style.card_info_container}>
+              <div className={style.card}>
+                <div className={style.user}>
+                  <div className="nav_button_card">
+                    <Image
+                      src={target ? target.images[0] : "/user.svg"}
+                      alt="Recherche"
+                      layout="fill"
+                      sizes="100%"
+                      objectFit="cover"
+                    />
+                  </div>
+                  <h6 style={{ marginTop: "10px" }}>
+                    {target ? target.name + " - " + target.brand : null}
+                  </h6>
+                  <p>{target ? target.price : null}€</p>
+                </div>
+              </div>
+              <div className={style.card}>
+                <div className={style.user}>
+                  <div className="nav_button">
+                    <Image
+                      src="/stock.svg"
+                      alt="Recherche"
+                      width="20px"
+                      height="20px"
+                      objectFit="contain"
+                    />
+                  </div>
+                  <h6 style={{ marginTop: "10px" }}>Stock produit</h6>
+                </div>
+                <table className={style.size}>
+                  <thead>
+                    <th>XS</th>
+                    <th>S</th>
+                    <th>M</th>
+                    <th>L</th>
+                    <th>XL</th>
+                  </thead>
+                  {target ? sizes() : null}
+                </table>
+              </div>
+              </div>
+      )
+      case (false) : 
+      return (
+        <div className={style.card_info_container}>
+          <div className={style.big_card}>
+          <div className="nav_button">
+                    <Image
+                      src="/package.svg"
+                      alt="Recherche"
+                      width="20px"
+                      height="20px"
+                      objectFit="contain"
+                    />
+                  </div>
+
+          </div>
+        </div>
+      )
+      default : 
+    }
+  }
+
   return (
     <>
       <div className={style.dashboard_wrapper}>
         <DashboardMenu />
 
         <div className={style.el_wrapper}>
-          <DashboardHeader item={profil_item} select={select} target={target} search={setSearch} />
+          <DashboardHeader addItem={addItem} setAddItem={setAddItem} item={profil_item} select={select} target={target} search={setSearch} />
           <div className="dashboard_top_cards_container">
             <div className="top_cards">
               <div className="nav_button">
@@ -222,49 +292,7 @@ export default function ProduitsVendeurProfil({
                   })}
               </tbody>
             </table>
-            <div className={style.card_info_container}>
-              <div className={style.card}>
-                <div className={style.user}>
-                  <div className="nav_button_card">
-                    <Image
-                      src={target ? target.images[0] : "/user.svg"}
-                      alt="Recherche"
-                      layout="fill"
-                      sizes="100%"
-                      objectFit="cover"
-                    />
-                  </div>
-                  <h6 style={{ marginTop: "10px" }}>
-                    {target ? target.name + " - " + target.brand : null}
-                  </h6>
-                  <p>{target ? target.price : null}€</p>
-                </div>
-              </div>
-              <div className={style.card}>
-                <div className={style.user}>
-                  <div className="nav_button">
-                    <Image
-                      src="/stock.svg"
-                      alt="Recherche"
-                      width="20px"
-                      height="20px"
-                      objectFit="contain"
-                    />
-                  </div>
-                  <h6 style={{ marginTop: "10px" }}>Stock produit</h6>
-                </div>
-                <table className={style.size}>
-                  <thead>
-                    <th>XS</th>
-                    <th>S</th>
-                    <th>M</th>
-                    <th>L</th>
-                    <th>XL</th>
-                  </thead>
-                  {target ? sizes() : null}
-                </table>
-              </div>
-            </div>
+            {infoOrAdd()}
           </div>
         </div>
       </div>

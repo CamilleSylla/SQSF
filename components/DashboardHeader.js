@@ -4,8 +4,10 @@ import Link from "next/link";
 import { useContext } from "react";
 import { UserContext } from "../context/userLog";
 
-export default function DashboardHeader({ item ,select, target, search }) {
+export default function DashboardHeader({addItem, setAddItem, item ,select, target, search }) {
   const [user, setUser] = useContext(UserContext);
+
+  console.log(addItem);
 
   function deleteItems() {
     axios.delete(`http://localhost:3001/api/items/delete`, {
@@ -14,6 +16,13 @@ export default function DashboardHeader({ item ,select, target, search }) {
       },
     }).then(res => {
       console.log("Deleted :", res);
+      select.forEach(item => {
+        const find = select.find(id => id == item)
+        if (find) {
+          const index = select.indexOf(item)
+          select.splice(index, 1)
+        }
+      })
     })
   }
 
@@ -48,6 +57,9 @@ export default function DashboardHeader({ item ,select, target, search }) {
             onChange={(e) => search(e.target.value)}
           />
 
+<button className="action_button blue" onClick={() => setAddItem(!addItem) }>
+          Ajouter +
+        </button>
           {target ? Action() : null}
         </div>
         <div className="dashboard_header_content">
