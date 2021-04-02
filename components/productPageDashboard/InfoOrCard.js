@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/userLog";
 import SimulateurPrix from "../SimulateurPrix";
 import style from "../../styles/maindashboard.module.scss";
@@ -32,26 +32,26 @@ export default function InfoOrCard({
   function handleChange(e, key) {
     console.log(e.target.files[0], key);
     if (e.target.files[0]) {
-      switch(key) {
-        case 0: 
-        image.splice(key, 0, e.target.files[0])
-        break
+      switch (key) {
+        case 0:
+          image.splice(key, 0, e.target.files[0]);
+          break;
         case 1:
-          image.splice(key, 0, e.target.files[0])
-          break
+          image.splice(key, 0, e.target.files[0]);
+          break;
         case 2:
-          image.splice(key, 0, e.target.files[0])
-          break
+          image.splice(key, 0, e.target.files[0]);
+          break;
       }
     }
     console.log(image);
-    
   }
   const fileUrl = [];
 
-  function handleUpload () {
-    image.forEach((image) => {
-      const uploadTask = storage.ref(`images/${image.name}`).put(image);
+   const handleUpload = e => {
+    e.preventDefault()
+    image.map((singleImage) => {
+      const uploadTask = storage.ref(`images/${singleImage.name}`).put(singleImage);
       uploadTask.on(
         "state_changed",
         (snapshot) => {},
@@ -61,15 +61,16 @@ export default function InfoOrCard({
         () => {
           storage
             .ref("images")
-            .child(image.name)
+            .child(singleImage.name)
             .getDownloadURL()
             .then((url) => {
               item.images.push(url);
+              console.log(item.images);
             });
         }
       );
     });
-  };
+  }
   const onNameChange = (e) => {
     setItem({ ...item, name: e.target.value });
   };
@@ -112,22 +113,20 @@ export default function InfoOrCard({
   const oncategorieChange = (e) => {
     setItem({ ...item, categorie: e.target.value });
   };
-  const Submit = async (e) => {
-    await handleUpload()
-
-    let config = {
-      headers: {
-        vendeur_auth_token: user.token,
-      },
-    };
-    console.log(item);
-    axios
-      .post(`http://localhost:3001/api/items/create`, item, config)
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+  const Submit = (e) => {
     e.preventDefault();
-  };
 
+      let config = {
+        headers: {
+          vendeur_auth_token: user.token,
+        },
+      };
+      console.log(item);
+      axios
+        .post(`http://localhost:3001/api/items/create`, item, config)
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
+  };
   switch (addItem) {
     case true:
       return (
@@ -193,7 +192,11 @@ export default function InfoOrCard({
             </div>
             <form
               onSubmit={Submit}
-              style={{ display: "flex", flexDirection: "column", alignItems:"center" }}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
             >
               <label>Fiche produit</label>
               <input
@@ -225,55 +228,57 @@ export default function InfoOrCard({
                 <thead>
                   <tr>
                     <th>
-                    <div className="nav_button">
-                <Image
-                  src="/defaultImage.svg"
-                  alt="Recherche"
-                  width="20px"
-                  height="20px"
-                  objectFit="contain"
-                />
-              </div>
+                      <div className="nav_button">
+                        <Image
+                          src="/defaultImage.svg"
+                          alt="Recherche"
+                          width="20px"
+                          height="20px"
+                          objectFit="contain"
+                        />
+                      </div>
                     </th>
                     <th>
-                    <div className="nav_button">
-                <Image
-                  src="/defaultImage.svg"
-                  alt="Recherche"
-                  width="20px"
-                  height="20px"
-                  objectFit="contain"
-                />
-              </div>
+                      <div className="nav_button">
+                        <Image
+                          src="/defaultImage.svg"
+                          alt="Recherche"
+                          width="20px"
+                          height="20px"
+                          objectFit="contain"
+                        />
+                      </div>
                     </th>
                     <th>
-                    <div className="nav_button">
-                <Image
-                  src="/defaultImage.svg"
-                  alt="Recherche"
-                  width="20px"
-                  height="20px"
-                  objectFit="contain"
-                />
-              </div>
+                      <div className="nav_button">
+                        <Image
+                          src="/defaultImage.svg"
+                          alt="Recherche"
+                          width="20px"
+                          height="20px"
+                          objectFit="contain"
+                        />
+                      </div>
                     </th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <th>
-                    <input type="file" onChange={e => handleChange(e, 0)}/>
+                      <input type="file" onChange={(e) => handleChange(e, 0)} />
                     </th>
                     <th>
-                    <input type="file" onChange={e => handleChange(e, 1)}/>
+                      <input type="file" onChange={(e) => handleChange(e, 1)} />
                     </th>
                     <th>
-                    <input type="file" onChange={e => handleChange(e, 2)}/>
+                      <input type="file" onChange={(e) => handleChange(e, 2)} />
                     </th>
                   </tr>
                 </tbody>
               </table>
-
+              <button onClick={handleUpload}>
+                Importé les images
+              </button>
               <label>Stock disponible</label>
               <div className={style.create_size}>
                 <input type="number" onChange={onxsChange} placeholder="XS" />
