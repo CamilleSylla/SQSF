@@ -7,8 +7,6 @@ import { UserContext } from "../context/userLog";
 export default function DashboardHeader({addItem, setAddItem, item ,select, target, search }) {
   const [user, setUser] = useContext(UserContext);
 
-  console.log(addItem);
-
   function deleteItems() {
     axios.delete(`http://localhost:3001/api/items/delete`, {
       params: {

@@ -1,8 +1,8 @@
 import React, { useState, createContext } from "react";
 
-export const vendeurInscriptionContext = createContext();
+export const VendeurInscriptionContext = createContext();
 
-export function vendeurInscriptionProvider(props) {
+export function VendeurInscriptionProvider(props) {
   const [submit, setSubmit] = useState({
     society: "",
     email: "",
@@ -15,8 +15,8 @@ export function vendeurInscriptionProvider(props) {
     lastname: "",
   });
   return (
-    <vendeurInscriptionContext.Provider value={[submit, setSubmit]}>
+    <VendeurInscriptionContext.Provider value={[submit, setSubmit]}>
       {props.children}
-    </vendeurInscriptionContext.Provider>
+    </VendeurInscriptionContext.Provider>
   );
 }
