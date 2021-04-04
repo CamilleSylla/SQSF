@@ -17,7 +17,6 @@ export default function InfoOrCard({
   const [item, setItem] = useState({
     vendeur: user.society,
     vendeur_id: user.id,
-    images: [],
   });
   const [image, setImage] = useState([]);
 
@@ -48,28 +47,52 @@ export default function InfoOrCard({
   }
   const fileUrl = [];
 
-   const handleUpload = e => {
-    e.preventDefault()
-    image.map((singleImage) => {
-      const uploadTask = storage.ref(`images/${singleImage.name}`).put(singleImage);
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {},
-        (error) => {
-          console.log(error);
-        },
-        () => {
-          storage
-            .ref("images")
-            .child(singleImage.name)
-            .getDownloadURL()
-            .then((url) => {
-              item.images.push(url);
-              console.log(item.images);
-            });
-        }
-      );
-    });
+  function handleUpload(e) {
+    if (image.length) {
+      const allUrl = Promise.all(
+        image.map((singleImage) => {
+          return new Promise((resolve, reject) => {
+            const uploadTask = storage
+              .ref(`images/${singleImage.name}`)
+              .put(singleImage);
+            uploadTask.on(
+              "state_changed",
+              (snapshot) => {},
+              (error) => {
+                console.log(error);
+              },
+              () => {
+                storage
+                  .ref("images")
+                  .child(singleImage.name)
+                  .getDownloadURL()
+                  .then((url) => {
+                    resolve(url);
+                  })
+                  .catch(function (err) {
+                    reject(err);
+                  });
+              }
+            );
+          });
+        })
+      )
+        .then((allUrls) => {
+          let config = {
+            headers: {
+              vendeur_auth_token: user.token,
+            },
+          };
+          console.log({...item, images: allUrls});
+          axios
+            .post(`http://localhost:3001/api/items/create`, {...item, images: allUrls}, config)
+            .then((res) => console.log(res))
+            .catch((err) => console.log(err));
+        })
+    } else {
+      console.log("vous devez inserer au moin une image pour présenter votre produit");
+    }
+    
   }
   const onNameChange = (e) => {
     setItem({ ...item, name: e.target.value });
@@ -113,20 +136,7 @@ export default function InfoOrCard({
   const oncategorieChange = (e) => {
     setItem({ ...item, categorie: e.target.value });
   };
-  const Submit = (e) => {
-    e.preventDefault();
-
-      let config = {
-        headers: {
-          vendeur_auth_token: user.token,
-        },
-      };
-      console.log(item);
-      axios
-        .post(`http://localhost:3001/api/items/create`, item, config)
-        .then((res) => console.log(res))
-        .catch((err) => console.log(err));
-  };
+  
   switch (addItem) {
     case true:
       return (
@@ -191,7 +201,7 @@ export default function InfoOrCard({
               </div>
             </div>
             <form
-              onSubmit={Submit}
+              onSubmit={(e) => handleUpload(e)}
               style={{
                 display: "flex",
                 flexDirection: "column",
@@ -223,6 +233,26 @@ export default function InfoOrCard({
                 onChange={onpromotionChange}
                 placeholder="Promotion"
               />
+              <select onChange={oncategorieChange}>
+                  <option value="">
+                    {item.categorie
+                      ? `Ce poduit est catégoriser sous " ${item.categorie} "`
+                      : "Veuillez une catégorie de produit"}
+                  </option>
+                  {getCategories.map((cat) => {
+                    return <option value={cat.name}>{cat.name}</option>;
+                  })}
+                </select>
+                <select onChange={ongenreChange}>
+                  <option value="">
+                    {item.genre
+                      ? `Ce poduit est classer sous le genre " ${item.genre} "`
+                      : "Veuillez une genrer ce produit"}
+                  </option>
+                  {getGenre.map((genre) => {
+                    return <option value={genre.name}>{genre.name}</option>;
+                  })}
+                </select>
               <label>Images du produit</label>
               <table className={style.import_image}>
                 <thead>
@@ -276,21 +306,40 @@ export default function InfoOrCard({
                   </tr>
                 </tbody>
               </table>
-              <button onClick={handleUpload}>
-                Importé les images
-              </button>
               <label>Stock disponible</label>
-              <div className={style.create_size}>
-                <input type="number" onChange={onxsChange} placeholder="XS" />
-                <input type="number" onChange={onsChange} placeholder="S" />
-                <input type="number" onChange={onmChange} placeholder="M" />
-                <input type="number" onChange={onlChange} placeholder="L" />
-                <input type="number" onChange={onxlChange} placeholder="XL" />
-                <input
+              <table>
+                <thead>
+                  <tr>
+                    <th>XS</th>
+                    <th>S</th>
+                    <th>M</th>
+                    <th>L</th>
+                    <th>XL</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th><input type="number" min="0" onChange={onxsChange} placeholder="XS" /></th>
+                    <th><input type="number"min="0" onChange={onsChange} placeholder="S" /></th>
+                    <th><input type="number" min="0" onChange={onmChange} placeholder="M" /></th>
+                    <th><input type="number" min="0" onChange={onlChange} placeholder="L" /></th>
+                    <th><input type="number" min="0" onChange={onxlChange} placeholder="XL" /></th>
+                    {/* <th><input
                   type="number"
                   onChange={onuniqueChange}
                   placeholder="Unique"
-                />
+                /></th> */}
+                    
+                  </tr>
+                </tbody>
+              </table>
+              <div className={style.create_size}>
+                
+                
+                
+                
+                
+                
                 <label>Informations produit</label>
                 <textarea
                   type="text"
@@ -302,32 +351,10 @@ export default function InfoOrCard({
                   onChange={onmatiereChange}
                   placeholder="Matiere"
                 />
-                <select onChange={oncategorieChange}>
-                  <option value="">
-                    {item.categorie
-                      ? `Ce poduit est catégoriser sous " ${item.categorie} "`
-                      : "Veuillez une catégorie de produit"}
-                  </option>
-                  {getCategories.map((cat) => {
-                    return <option value={cat.name}>{cat.name}</option>;
-                  })}
-                </select>
-                <select onChange={ongenreChange}>
-                  <option value="">
-                    {item.genre
-                      ? `Ce poduit est classer sous le genre " ${item.genre} "`
-                      : "Veuillez une genrer ce produit"}
-                  </option>
-                  {getGenre.map((genre) => {
-                    return <option value={genre.name}>{genre.name}</option>;
-                  })}
-                </select>
+                
                 <input type="submit" value="Ajouter" />
               </div>
             </form>
-            {/* <label>Images du produit</label>
-            <input type="file" onChange={handleChange} multiple="multiple" />
-            <button onClick={handleUpload} style={{marginBottom: "20px"}}>Importé les images</button> */}
           </div>
         </div>
       );
