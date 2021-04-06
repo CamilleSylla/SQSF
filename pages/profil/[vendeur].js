@@ -5,7 +5,6 @@ import axios from "axios";
 import Cards from "../../components/Cards";
 
 export default function SellerProfile({ vendeur, product }) {
-  console.log(vendeur.banniere_picture);
   return (
     <>
       <Head>

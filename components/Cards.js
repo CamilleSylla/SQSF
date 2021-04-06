@@ -24,7 +24,7 @@ export default function Cards({ data }) {
                 <h2>{item.brand}</h2>
                 <div className={style.price_and_seller}>
                   <p>{item.price}€</p>
-                  <Link href={`/profil/${item.vendeur}`}>
+                  <Link href={`/profil/${item.vendeur_id}`}>
                   <h6>{item.vendeur}</h6>
                   </Link>
                 </div>

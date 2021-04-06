@@ -48,6 +48,7 @@ export default function InfoOrCard({
   const fileUrl = [];
 
   function handleUpload(e) {
+    e.preventDefault()
     if (image.length) {
       const allUrl = Promise.all(
         image.map((singleImage) => {
@@ -94,48 +95,9 @@ export default function InfoOrCard({
     }
     
   }
-  const onNameChange = (e) => {
-    setItem({ ...item, name: e.target.value });
-  };
-  const onBrandChange = (e) => {
-    setItem({ ...item, brand: e.target.value });
-  };
-  const onpriceChange = (e) => {
-    setItem({ ...item, price: e.target.value });
-  };
-  const onpromotionChange = (e) => {
-    setItem({ ...item, promotion: e.target.value });
-  };
-  const onxsChange = (e) => {
-    setItem({ ...item, xs: e.target.value });
-  };
-  const onsChange = (e) => {
-    setItem({ ...item, s: e.target.value });
-  };
-  const onmChange = (e) => {
-    setItem({ ...item, m: e.target.value });
-  };
-  const onlChange = (e) => {
-    setItem({ ...item, l: e.target.value });
-  };
-  const onxlChange = (e) => {
-    setItem({ ...item, xl: e.target.value });
-  };
-  const onuniqueChange = (e) => {
-    setItem({ ...item, unique: e.target.value });
-  };
-  const onmatiereChange = (e) => {
-    setItem({ ...item, matiere: e.target.value });
-  };
-  const ondescriptionChange = (e) => {
-    setItem({ ...item, description: e.target.value });
-  };
-  const ongenreChange = (e) => {
-    setItem({ ...item, genre: e.target.value });
-  };
-  const oncategorieChange = (e) => {
-    setItem({ ...item, categorie: e.target.value });
-  };
+  function onItemChange (e, key) {
+    setItem({...item, [key]: e.target.value})
+  }
   
   switch (addItem) {
     case true:
@@ -211,17 +173,17 @@ export default function InfoOrCard({
               <label>Fiche produit</label>
               <input
                 type="text"
-                onChange={onNameChange}
+                onChange={e => onItemChange(e, "name")}
                 placeholder="Nom du produit"
               />
               <input
                 type="text"
-                onChange={onBrandChange}
+                onChange={e => onItemChange(e, "brand")}
                 placeholder="Marque"
               />
               <input
                 type="number"
-                onChange={onpriceChange}
+                onChange={e => onItemChange(e, "price")}
                 min="0.01"
                 step="0.01"
                 placeholder="Prix"
@@ -230,10 +192,10 @@ export default function InfoOrCard({
               {item.price ? <SimulateurPrix price={item.price} /> : null}
               <input
                 type="number"
-                onChange={onpromotionChange}
+                onChange={e => onItemChange(e, "promotion")}
                 placeholder="Promotion"
               />
-              <select onChange={oncategorieChange}>
+              <select onChange={e => onItemChange(e, "categorie")}>
                   <option value="">
                     {item.categorie
                       ? `Ce poduit est catégoriser sous " ${item.categorie} "`
@@ -243,7 +205,7 @@ export default function InfoOrCard({
                     return <option value={cat.name}>{cat.name}</option>;
                   })}
                 </select>
-                <select onChange={ongenreChange}>
+                <select onChange={e => onItemChange(e, "genre")}>
                   <option value="">
                     {item.genre
                       ? `Ce poduit est classer sous le genre " ${item.genre} "`
@@ -319,11 +281,11 @@ export default function InfoOrCard({
                 </thead>
                 <tbody>
                   <tr>
-                    <th><input type="number" min="0" onChange={onxsChange} placeholder="XS" /></th>
-                    <th><input type="number"min="0" onChange={onsChange} placeholder="S" /></th>
-                    <th><input type="number" min="0" onChange={onmChange} placeholder="M" /></th>
-                    <th><input type="number" min="0" onChange={onlChange} placeholder="L" /></th>
-                    <th><input type="number" min="0" onChange={onxlChange} placeholder="XL" /></th>
+                    <th><input type="number" min="0" onChange={e => onItemChange(e, "xs")} placeholder="XS" /></th>
+                    <th><input type="number"min="0" onChange={e => onItemChange(e, "s")} placeholder="S" /></th>
+                    <th><input type="number" min="0" onChange={e => onItemChange(e, "m")} placeholder="M" /></th>
+                    <th><input type="number" min="0" onChange={e => onItemChange(e, "l")} placeholder="L" /></th>
+                    <th><input type="number" min="0" onChange={e => onItemChange(e, "xl")} placeholder="XL" /></th>
                     {/* <th><input
                   type="number"
                   onChange={onuniqueChange}
@@ -343,12 +305,12 @@ export default function InfoOrCard({
                 <label>Informations produit</label>
                 <textarea
                   type="text"
-                  onChange={ondescriptionChange}
+                  onChange={e => onItemChange(e, "description")}
                   placeholder="Description du produit"
                 />
                 <input
                   type="text"
-                  onChange={onmatiereChange}
+                  onChange={e => onItemChange(e, "matiere")}
                   placeholder="Matiere"
                 />
                 

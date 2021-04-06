@@ -1,14 +1,9 @@
 import axios from "axios";
 import DashboardMenu from "../../../components/DashboardMenu";
 import style from "../../../styles/maindashboard.module.scss";
-import component from "../../../styles/dashboardlistproducts.module.scss";
-import { useContext, useEffect, useState } from "react";
-import CreateArticle from "../../../components/CreateArticle";
-import Link from "next/link";
+import { useState } from "react";
 import Image from "next/image";
-import SimulateurPrix from "../../../components/SimulateurPrix";
 import DashboardHeader from "../../../components/DashboardHeader";
-import { UserContext } from "../../../context/userLog";
 import InfoOrCard from "../../../components/productPageDashboard/InfoOrCard";
 export default function ProduitsVendeurProfil({
   profil_item,
@@ -252,6 +247,7 @@ export default function ProduitsVendeurProfil({
 }
 
 export async function getServerSideProps({ params }) {
+  console.log(params.seller);
   const profil_item = await axios
     .get(`http://localhost:3001/api/inventary/produit/${params.seller}`)
     .then((res) => {
