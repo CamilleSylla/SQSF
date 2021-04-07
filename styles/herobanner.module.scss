@@ -1,88 +1,40 @@
-.carousel {
+
+.add_container {
   width: 100%;
-  height: 80vh;
-  background-image: url(../public/sqmarket.svg);
-  background-size: contain;
+  height: 60vh;
+  background: chartreuse;
   position: relative;
-  .mySlide {
-    display: none;
-  }
-  .fade {
-    -webkit-animation-name: fade;
-    -webkit-animation-duration: 1.5s;
-    animation-name: fade;
-    animation-duration: 1.5s;
-  }
-  .carousel_img {
-    width: 100%;
-    height: 100%;
-  }
-  .promo {
+  
+  .add_content {
+    height: 80%;
+    width: 50%;
     position: absolute;
-    bottom: 50px;
-    min-height: 30%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
+    z-index: 2;
     left: 50px;
-    background-color: violet;
-    width: 30%;
-    max-height: 50%;
-    button {
-      width: 30%;
-      height: 6vh;
-      background-color: #2a324b;
-      color: lightgray;
-      border: none;
-      font-size: 2.5vh;
-      font-weight: 500;
+    bottom: 5%;
+    h1 {
+      font-size: 3.5vw;
     }
   }
-  .prev,
-  .next {
-    cursor: pointer;
+  .round_btn_container {
+    z-index: 3;
+    width: 7%;
     position: absolute;
-    top: 50%;
-    width: auto;
-    margin-top: -22px;
-    padding: 16px;
-    color: #F2F3F8;
-    font-weight: bold;
-    font-size: 5vh;
-    transition: 0.6s ease;
-    border-radius: 0 3px 3px 0;
-    user-select: none;
-  }
-  .next {
-    right: 0;
-    border-radius: 3px 0 0 3px;
-  }
-
-  .prev:hover,
-  .next:hover {
-    background-color: rgba(#2A324B, 0.8);
-  }
-  
-  .active,
-  .dot:hover {
-    background-color: #717171;
+    bottom: 50px;
+    left: 50px;
+    button {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-left: 10px;
+      border: none;
+      background: #2A324B;
+      cursor: pointer;
+    }
+    .active {
+      background: #8E92A4;
+      border-radius: 1px solid #e7e9f0;
+    }
   }
 }
 
-@-webkit-keyframes fade {
-  from {
-    opacity: 0.4;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes fade {
-  from {
-    opacity: 0.4;
-  }
-  to {
-    opacity: 1;
-  }
-}

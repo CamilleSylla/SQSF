@@ -1,56 +1,68 @@
 .navbar {
   nav {
     width: 100%;
-    height: 8vh;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    ul {
-      width: 50%;
-      height: 100%;
+    .top_nav {
+      width: 100%;
+      height: 8vh;
       display: flex;
       justify-content: space-evenly;
       align-items: center;
-      list-style: none;
-    }
-    .nav_button_wrapper {
-      width: 20%;
-      height: 100%;
-      display: flex;
-      justify-content: space-evenly;
-      align-items: center;
-      .nav_button {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        position: relative;
+      background-color: #2A324B;
+      color: #F2F3F8;
+      .nav_logs {
+        width: 20%;
         display: flex;
-        justify-content: center;
+        justify-content: space-evenly;
+      }
+      .nav_search {
+        width: 40%;
+        height: 75%;
+        background: #252c41;
+        border-radius: 15px;
+        display: flex;
         align-items: center;
-        box-shadow:  3px 3px 5px #a1a1a1,
-             -5px -5px 5px #ffffff;
-             cursor: pointer;
-        &:hover {
-            box-shadow: inset 3px 3px 5px #a1a1a1,
-             inset -5px -5px 5px #ffffff;
+        select {
+          width: 25%;
+          height: 80%;
+          border: none;
+          border-right: 1px solid #8E92A4;
+          background: transparent;
+          padding-left: 20px;
+          color: #F2F3F8;
         }
-        .notif {
-          position: absolute;
-          width: 20px;
-          height: 20px;
-          z-index: 1;
-          font-weight: 500;
-          color: white;
-          font-size: 10px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          border-radius: 50%;
-          right: 0;
-          top: 0;
-          background-color: rgb(139, 11, 11);
+        input {
+          color: #F2F3F8;
+          width: 70%;
+          height: 100%;
+          border: none;
+          padding-left: 20px;
+          background: transparent;
         }
+      }
+    }
 
+    .bottom_nav {
+      width: 100%;
+      height: 6vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      .nav_dropdown{
+        display: flex;
+        align-items: center;
+        height: 100%;
+        margin-left: 15px;
+        p {
+          margin-left: 10px;
+          margin-right: 10px;
+        }
+      }
+      .nav_button_wrapper {
+        width: 5%;
+        position: absolute;
+        display: flex;
+        justify-content: space-evenly;
+        right: 50px;
       }
     }
   }
