@@ -1,0 +1,77 @@
+.home_popular_container {
+    margin-top: 50px;
+    width: 100%;
+    height: 40vh;
+    position: relative;
+    h3 {
+        font-size: 4.5vh;
+        position: relative;
+        left: 10%;
+    }
+    .param_card_container {
+        position: absolute;
+        width: 65%;
+        height: 80%;
+        left: 35%;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        overflow-x: scroll;
+        cursor: grab;
+        transition: all .2s ease;
+        transform: scale(0.98);
+        &::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+            background-color: transparent;
+        }
+        .param_cards {
+            border: 1px solid #8e92a48f;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            min-width: 200px;
+            height: 225px;
+            margin-right: 50px;
+            transition: all .2s ease;
+            .param_crad_img {
+                top: 10px;
+                height: 50%;
+                width: 90%;
+                position: relative;
+                overflow: hidden;
+                border-radius: 15px;
+            }
+            .param_vend_img {
+                top: 10px;
+                width: 100px;
+                height: 100px;
+                position: relative;
+                overflow: hidden;
+                border-radius: 50%;
+            }
+            h5 {
+                font-size: 1.8vh;
+                position: absolute;
+                bottom: 20%;
+            }
+            p {
+                position: absolute;
+                bottom: 5%;
+                font-size: 1.6vh;
+                color: #8e92a48f;
+            }
+            &:hover {
+                p {
+                    color: #8e92a4;
+                }
+            }
+        }
+    }
+    .active {
+        cursor: grabbing;
+        transform: scale(1);
+    }
+}

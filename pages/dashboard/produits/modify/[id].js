@@ -9,6 +9,9 @@ import { storage } from "../../../../firebase/firebase";
 
 export default function ModifyProduct({ item_m, getGenre, getCategorie }) {
   const [user, setUser] = useContext(UserContext);
+  const [delivery, setDelivery] = useState({
+    type: null,
+  });
   const [item, setItem] = useState(item_m);
   const [image, setImage] = useState({
     image1: null,
@@ -155,7 +158,104 @@ export default function ModifyProduct({ item_m, getGenre, getCategorie }) {
   const oncategorieChange = (e) => {
     setItem({ ...item, categorie: e.target.value });
   };
+  function onDeliveryChange(e, key) {
+    setDelivery([...item, { [key]: e.target.value }]);
+  }
 
+  function timeFraction() {
+    const result = [];
+    const startTime = new Date("2021-09-04 08:00:00");
+    const endTime = new Date("2021-09-04 19:00:00");
+    for (let i = startTime; i <= endTime; i.setMinutes(i.getMinutes() + 15)) {
+      const hours = {
+        hours: i.getHours(),
+        minutes: i.getMinutes(),
+      };
+      result.push(hours);
+    }
+    return result;
+  }
+
+  function toogleDelivery(type) {
+    function delConditions (e, key) {
+        setDelivery({...delivery, [key]: e})
+        console.log(delivery);
+    }
+
+
+    switch (type) {
+      case "Livraison":
+        return (
+          <>
+            <select onChange={e => delConditions(e.target.value, "perimetre")}>
+              <option>Ville</option>
+              <option value="SaintQuentin">Saint-Quentin</option>
+              <option value="Aisne">Aisne</option>
+              <option value="France">France</option>
+            </select>
+            <input type="num" placeholder="Tarif de livraison" onChange={e => delConditions(e.target.value, "tarif")}/>
+          </>
+        );
+      case "ClickCollect":
+        return (
+          <>
+            <select onChange={e => delConditions(e.target.value, "start")}>
+              <option>Du (Premier jour d'ouverture de la boutique)</option>
+              <option value="1">Lundi</option>
+              <option value="2">Mardi</option>
+              <option value="3">Mercredi</option>
+              <option value="4">Jeudi</option>
+              <option value="5">Vendredi</option>
+              <option value="6">Samedi</option>
+            </select>
+            <select onChange={e => delConditions(e.target.value, "end")}>
+            <option>Au (Dernier jour d'ouverture de la boutique)</option>
+              <option value="1">Lundi</option>
+              <option value="2">Mardi</option>
+              <option value="3">Mercredi</option>
+              <option value="4">Jeudi</option>
+              <option value="5">Vendredi</option>
+              <option value="6">Samedi</option>
+              <option value="7">Dimanche</option>
+            </select>
+            <select onChange={e => delConditions(e.target.value, "time_start")}>
+              <option>De (Horraire ouverture de l'entreprise)</option>
+                {timeFraction().map((time, i) => {
+                  return (
+                    <option
+                      value={`${time.hours}:${time.minutes}`}
+                    >{`${time.hours}:${time.minutes}`}</option>
+                  );
+                })}
+              </select>
+              <select onChange={e => delConditions(e.target.value, "time_end")}>
+              <option>De (Horraire fermeture de l'entreprise)</option>
+                {timeFraction().map((time, i) => {
+                  return (
+                    <option
+                      value={`${time.hours}:${time.minutes}`}
+                    >{`${time.hours}:${time.minutes}`}</option>
+                  );
+                })}
+              </select>
+          </>
+        );
+      default:
+        return null;
+    }
+  }
+
+  const ValidateDel = e => {
+    e.preventDefault()
+    if (item.delivery_options) {
+      item.delivery_options.push(delivery)
+
+    } else {
+      setItem({...item, delivery_options: [delivery]})
+    }
+    setDelivery({type: null})
+  }
+ 
   const Submit = (e) => {
     e.preventDefault();
 
@@ -231,6 +331,18 @@ export default function ModifyProduct({ item_m, getGenre, getCategorie }) {
           </div>
           <div className={product.formModify}>
             <form>
+              <label>Methode de Livraison</label>
+              <select
+                onChange={(e) =>
+                  setDelivery({type: e.target.value })
+                }
+              >
+                <option>Methode de livraison</option>
+                <option value="Livraison">Livraison</option>
+                <option value="ClickCollect">Click&Collect</option>
+              </select>
+              {toogleDelivery(delivery.type)}
+              <button onClick={ValidateDel}>Valider la methode de livraison</button>
               <input
                 type="text"
                 onChange={onNameChange}

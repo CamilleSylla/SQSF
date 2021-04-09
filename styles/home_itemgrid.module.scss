@@ -1,0 +1,14 @@
+.item_grid_container {
+    width: 100%;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    display: flex;
+    justify-content: center;
+    
+    .item_grid {
+        width: 80%;
+        display: grid;
+        column-gap: 50px;
+        grid-template-columns: repeat(4, 1fr);
+    }
+}

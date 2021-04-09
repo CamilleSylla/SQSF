@@ -71,6 +71,7 @@ export default function ProfilInfos() {
   };
 
   const onValidate = () => {
+    console.log(updated);
     let config = {
       headers: {
         vendeur_auth_token: user.token,
@@ -101,7 +102,7 @@ export default function ProfilInfos() {
                 <label>Photo de profil</label>
                 <div className="nav_button_card">
                   <Image
-                    src={user ? user.profile_picture : "/user.svg"}
+                    src={user.profile_picture ? user.profile_picture : "/user.svg"}
                     alt="Recherche"
                     layout="fill"
                     sizes="100%"
@@ -112,7 +113,7 @@ export default function ProfilInfos() {
                 <input type="file" onChange={(e) => handleChange(e, 0)} />
                 <label>Banniere de profil</label>
                 <Image
-                  src={user ? user.banniere_picture : "/user.svg"}
+                  src={user.banniere_picture ? user.banniere_picture : "/user.svg"}
                   alt="Recherche"
                   width="100%"
                   height="150px"

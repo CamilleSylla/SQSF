@@ -68,7 +68,8 @@ export default function DashboardHeader({addItem, setAddItem, item ,select, targ
             <p>{user.society}</p>
             <div className="nav_button" style={{ overflow: "hidden" }}>
               <Image
-                src={user.profile_picture ? user.profile_picture : "/image.svg"}
+                // src={user.profile_picture !== undefined || null ? user.profile_picture : "/image.svg"}
+                src="/image.svg"
                 alt="Recherche"
                 layout="fill"
                 sizes="100%"

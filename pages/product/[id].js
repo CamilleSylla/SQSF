@@ -12,9 +12,9 @@ export default function Product({item}) {
               ici sera le fils d'ariane
           </div>
         <ItemInfos item={item}/>
-        <section className={style.pages_related}>
+        {/* <section className={style.pages_related}>
                 <h1>Vous aimerez peut-être</h1>
-        </section>
+        </section> */}
       </div>
     </>
   );

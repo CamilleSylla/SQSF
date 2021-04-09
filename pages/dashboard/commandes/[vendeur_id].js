@@ -3,8 +3,11 @@ import DashboardMenu from "../../../components/DashboardMenu";
 import style from "../../../styles/maindashboard.module.scss";
 import Image from "next/image";
 import DashboardHeader from "../../../components/DashboardHeader";
+import { UserContext } from "../../../context/userLog";
+import { useContext } from "react";
 
 export default function Commande({ commandes }) {
+  const [user, setUser] = useContext(UserContext);
   const orderMonth = commandes.map(commande => {
     const currentDate = new Date ()
     const currentMonth = currentDate.getMonth()
@@ -12,6 +15,33 @@ export default function Commande({ commandes }) {
     const orderDate = new Date(commande.date)
     if (orderDate.getMonth() == currentMonth && orderDate.getFullYear() == currentYear) return commande
   })
+
+  const orderType = function () {
+    const ClickCollect = commandes.filter(order => order.delivery[0].type == "ClickCollect" && order.delivery_status == null)
+    const Livraison = commandes.filter(order => order.delivery[0].type == "Livraison" && order.delivery_status == null)
+    return {clickcollect: ClickCollect, delivery: Livraison}
+  }
+
+ async function updateStatus(id, date){
+    const req = {
+      _id: id,
+      delivery_status: date
+    }
+    let config = {
+      headers: {
+        vendeur_auth_token: user.token,
+        order_id: id,
+      },
+    };
+    const updateOrder = await axios
+    .patch(
+      `http://localhost:3001/api/order/update/order/${id}`,
+      { ...req },
+      config
+    )
+    .then((res) => alert(res.data))
+    .catch((err) => console.log(err));
+  }
   if (!commandes) {
     return (
       <>
@@ -49,7 +79,7 @@ export default function Commande({ commandes }) {
                       objectFit="contain"
                     />
                   </div>
-                  <h6 style={{width: "50%"}}>Commandes sans notification d'envoie :<br/><span style={{fontSize: "20px"}}>{orderMonth.length}</span></h6>
+                  <h6 style={{width: "50%"}}>Commandes sans notification d'envoie :<br/><span style={{fontSize: "20px"}}>{orderType().delivery.length}</span></h6>
            
             </div>
             <div className="top_cards">
@@ -62,7 +92,7 @@ export default function Commande({ commandes }) {
                       objectFit="contain"
                     />
                   </div>
-                  <h6 style={{width: "50%"}}>Commande Click&Collect sans récupération :<br/><span style={{fontSize: "20px"}}>{orderMonth.length}</span></h6>
+                  <h6 style={{width: "50%"}}>Commande Click&Collect sans récupération :<br/><span style={{fontSize: "20px"}}>{orderType().clickcollect.length}</span></h6>
            
             </div>
           </div>
@@ -80,13 +110,25 @@ export default function Commande({ commandes }) {
                     <p>Date</p>
                   </th>
                   <th>
-                    <p>Status</p>
+                    <p>Notifier comme Envoyer / Recuperer</p>
                   </th>
                 </tr>
               </thead>
               <tbody>
                 {commandes.map((commande, i) => {
                   const d = new Date(commande.date);
+                  function toogleStatus() {
+
+                    if (commande.delivery_status)  {
+                      return (
+                        <p> Envoyé le {new Date(commande.delivery_status).toLocaleDateString()}</p>
+                      )
+                    } else {
+                      return (
+                        <input type="checkbox" value={new Date()} onChange={e => updateStatus(commande._id, e.target.value)}/>
+                      )
+                    }
+                  }
                   return (
                     <tr key={i}>
                       <td>
@@ -103,7 +145,7 @@ export default function Commande({ commandes }) {
                         </p>
                       </td>
                       <td>
-                        <input type="checkbox" />
+                        {toogleStatus()}
                       </td>
                     </tr>
                   );

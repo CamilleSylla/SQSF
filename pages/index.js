@@ -2,20 +2,23 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import axios from "axios";
 import HeroBanner from "../components/HeroBanner";
-import Rayons from "../components/homeRayon";
+import HomePopular from "../components/HomePage/PopularCat";
+import ItemGrid from "../components/HomePage/ItemsGrid";
 
-export default function Home({ items }) {
+export default function Home({ items, filters }) {
 
   return (
     <>
       <Head>
         <title>SQMarket</title>
-
       </Head>
-
       <div>
         <HeroBanner/>
-        <Rayons/>
+        <HomePopular id="categories" data={filters}/>
+        <HomePopular id="vendeurs" data={filters}/>
+        <HomePopular id="promotions"/>
+        <ItemGrid items={items}/>
+        
       </div>
     </>
   );
@@ -30,9 +33,19 @@ export async function getServerSideProps() {
     .catch((err) => {
       console.log(err);
     });
+
+  const filters = await axios
+    .get("http://localhost:3001/api/categorie/all")
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      console.log("error",err);
+    });
   return {
     props: {
       items,
+      filters
     },
   };
 }

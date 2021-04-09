@@ -48,10 +48,11 @@
       align-items: center;
       position: relative;
       .nav_dropdown{
-        display: flex;
-        align-items: center;
         height: 100%;
         margin-left: 15px;
+        background-color: transparent;
+        border: none;
+        font-size: 2vh;
         p {
           margin-left: 10px;
           margin-right: 10px;
