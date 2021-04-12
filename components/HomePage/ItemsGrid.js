@@ -2,16 +2,15 @@ import Image from "next/image";
 import style from "../../styles/home_itemgrid.module.scss";
 import Link from "next/link";
 
-export default function ItemGrid(items) {
+export default function ItemGrid({items, limit}) {
+  console.log(items);
   return (
     <>
-      <h5 style={{ fontSize: "4.5vh", textAlign: "center" }}>
-        Les Nouveautés de SQMarket
-      </h5>
+      
       <div className={style.item_grid_container}>
         <div className={style.item_grid}>
-          {items.items.map((item, i) => {
-            while (i <= 24) {
+          {items.map((item, i) => {
+            while (i <= limit) {
               return (
                 <Link href={`/product/${item._id}`}>
                   <div className="item_card">

@@ -7,12 +7,22 @@ export default function HeroBanner() {
 
   const addData = [
     {
-    title: "Enjoy lots of bonuses with Classified cards",
+    title: "1111111111Enjoy lots of bonuses with Classified cards",
     sub: "Earn stars when shoppinfs on the service and buy goods for them",
     img: "/image.svg"
   },
     {
     title: "222222222222Enjoy lots of bonuses with Classified cards",
+    sub: "Earn stars when shoppinfs on the service and buy goods for them",
+    img: "/image.svg"
+  },
+    {
+    title: "33333333333Enjoy lots of bonuses with Classified cards",
+    sub: "Earn stars when shoppinfs on the service and buy goods for them",
+    img: "/image.svg"
+  },
+    {
+    title: "4444444444444Enjoy lots of bonuses with Classified cards",
     sub: "Earn stars when shoppinfs on the service and buy goods for them",
     img: "/image.svg"
   },
@@ -26,6 +36,14 @@ function setActiveAdd() {
 }
 useEffect(() => {
   setActiveAdd()
+  setTimeout(()=> {
+    if (add+1 > addData.length - 1) {
+      setAdd(0)
+    } else {
+      setAdd(add+1)
+
+    }
+  }, 5000)
 }, [add])
 
   return (

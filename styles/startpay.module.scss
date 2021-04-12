@@ -1,32 +1,42 @@
-.startpay {
-    width: 20vw;
-    height: 30vh;
+.startpay_container {
+    width: 100%;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 4px solid lightgray;
-    .startpay_wrapper {
-width: 90%;
-height: 90%;
-display: flex;
-flex-direction: column;
-justify-content: space-between;
-        .startpay_content {
+    justify-content: space-evenly;
+    .cumstumer_infos {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+    }
+    .startpay {
+        width: 30%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 4px solid lightgray;
+        border-radius: 15px;
+        .startpay_wrapper {
+          width: 90%;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          .startpay_content {
             display: flex;
             justify-content: space-between;
             width: 90%;
             h2 {
-                font-size: 2vh;
+              font-size: 2vh;
             }
+          }
         }
-    }
+      }
+      .purchase_btn {
+        width: 20vw;
+        height: 8vh;
+        background-color: #2a324b;
+        color: lightgray;
+        border: none;
+        font-size: 2.5vh;
+        font-weight: 700;
+      }
 }
-.purchase_btn {
-    width: 20vw;
-    height: 8vh;
-    background-color: #2A324B;
-    color: lightgray;
-    border: none;
-    font-size: 2.5vh;
-    font-weight: 700;
-}
+

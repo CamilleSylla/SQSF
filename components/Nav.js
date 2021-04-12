@@ -5,12 +5,15 @@ import Link from "next/link";
 import { UserContext } from "../context/userLog";
 import { CartContext } from "../context/cartContext";
 import axios from "axios";
+import Router from 'next/router'
 
 export default function NavBar() {
   const [user, setUser] = useContext(UserContext);
   const [cart, setCart] = useContext(CartContext);
   const [dropdown, setDropdown] = useState(null)
-
+  function handleChange(value) {
+    Router.push(value);
+  }
   function connectedUser() {
     return (
       <>
@@ -37,7 +40,7 @@ let option
       option = data.map((cat, i) => {
         return (
           <>
-          <option>{cat.name}</option>
+          <option value={cat.name}>{cat.name}</option>
           </>
         )
       })
@@ -46,19 +49,16 @@ let option
       option = data.map((vend, i) => {
         return (
           <>
-          <Link href={`/profil/${vend._id}`}>
-          <option onClick={() => window.location.replace(`/profil/${vend._id}`)}>{vend.society}</option>
-          </Link>
+          <option value={vend._id}>{vend.society}</option>
           </>
         )
       })
       return option
       case "brand" :
         option = data.map((cat, i) => {
-          console.log(cat);
           return (
             <>
-            <option>{cat}</option>
+            <option value={cat} >{cat}</option>
             </>
           )
         })
@@ -118,16 +118,16 @@ let option
             </div>
           </div>
           <div className={style.bottom_nav}>
-            <select className={style.nav_dropdown}>
-              <option>Toutes les Catégories</option>
+            <select className={style.nav_dropdown} onChange={event => handleChange(`/market/${event.target.value}`)}>
+              <option value="all">Toutes les Catégories</option>
               {dropdown ? selectOption(dropdown.categories, "cat") : null}
             </select>
-            <select className={style.nav_dropdown}>
+            <select className={style.nav_dropdown} onChange={event => handleChange(`/profil/${event.target.value}`)}>
             <option>Nos vendeurs</option>
             {dropdown ? selectOption(dropdown.vendeurs, "vend") : null}
               
             </select>
-            <select className={style.nav_dropdown}>
+            <select className={style.nav_dropdown} onChange={event => handleChange(`/market/${event.target.value}`)}>
             <option>Nos marques</option>
             {dropdown ? selectOption(dropdown.brands, "brand") : null}
               

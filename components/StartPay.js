@@ -4,7 +4,6 @@ import { useContext, useEffect, useState } from "react";
 import { CartContext } from "../context/cartContext";
 import { loadStripe } from "@stripe/stripe-js";
 import React from "react";
-import ReactDOM from "react-dom";
 import {
   CardElement,
   Elements,
@@ -13,7 +12,7 @@ import {
 } from "@stripe/react-stripe-js";
 import axios from "axios";
 
-const CheckoutForm = () => {
+const CheckoutForm = (client, setClient) => {
   const [succeeded, setSucceeded] = useState(false);
   const [error, setError] = useState(null);
   const [processing, setProcessing] = useState("");
@@ -26,15 +25,7 @@ const CheckoutForm = () => {
     cart: cart,
     client_secret : null
   });
-  const  [client, setClient] = useState({
-    name: "Camille",
-    lastname: "Sylla",
-    adress: "8 square du moulin l'évêque",
-    city: "Le Mans",
-    cp: "02100",
-    cart: cart,
-    pi_id: null
-  })
+  
 
   const cardStyle = {
     style: {
@@ -89,7 +80,6 @@ const CheckoutForm = () => {
 axios.post(`http://localhost:3001/api/payments/payment_intent`, {cart})
 .then(res =>{ 
   setRequest({...request, client_secret : res.data.client_secret})
-  console.log(request.client_secret);
 })
 
     if (request.source) {
@@ -142,6 +132,18 @@ const stripePromise = loadStripe(
 
 export default function StartPay() {
   const [cart, setCart] = useContext(CartContext);
+  const  [client, setClient] = useState({
+    name: "Camille",
+    lastname: "Sylla",
+    adress: "8 square du moulin l'évêque",
+    city: "Le Mans",
+    cp: "02100",
+    card_name: "",
+    email: "",
+    phone: "",
+    cart: cart,
+    pi_id: null
+  })
 
   function CartAmount() {
     const Accumulator = [];
@@ -157,14 +159,55 @@ export default function StartPay() {
       return null;
     }
   }
-  return (
+
+  function onInfosChange (e, key) {
+    setClient({...client, [key]: e})
+    console.log(client);
+  }
+   return (
     <>
-      <div className={style.startpay}>
+    <div className={style.startpay_container}>
+      <div className={style.cumstumer_infos}>
+        <label>Nom</label>
+        <input type="text" onChange={e => onInfosChange(e.target.value,"lastname")}/>
+        <label>Prénom</label>
+        <input type="text" onChange={e => onInfosChange(e.target.value,"name")}/>
+        <label>Email</label>
+        <input type="text" onChange={e => onInfosChange(e.target.value,"email")}/>
+        <label>Telephone</label>
+        <input type="text" onChange={e => onInfosChange(e.target.value,"phone")}/>
+        <label>Adresse</label>
+        <input type="text" onChange={e => onInfosChange(e.target.value,"adress")}/>
+        <label>Ville</label>
+        <input type="text" onChange={e => onInfosChange(e.target.value,"city")}/>
+        <label>Code Postale</label>
+        <input type="text" onChange={e => onInfosChange(e.target.value,"cp")}/>
+        <label>Nom de la Carte</label>
+        <input type="text" onChange={e => onInfosChange(e.target.value,"card_name")}/>
+        <Elements stripe={stripePromise}>
+            <CheckoutForm client={client} setClient={setClient} />
+          </Elements>
+      </div>
+    <div className={style.startpay}>
         <div className={style.startpay_wrapper}>
-          <div className={style.startpay_content}>
-            <h2>Montant du panier</h2>
-            <p>{CartAmount()}€</p>
-          </div>
+          <h3>Facture</h3>
+          
+          
+            <h2>Éléments du panier</h2>
+            <div className={style.startpay_content} style={{fontSize: "1.4vh"}}>
+              <p>Nom du produit</p>
+              <p>Quantité</p>
+            </div>
+            {cart.map((item, i) => {
+              return (
+                <>
+                <div className={style.startpay_content}>
+                  <p>{item.name}</p>
+                  <p>{item.quantity}</p>
+                </div>
+                </>
+              )
+            })}
           {/* <div className={style.startpay_content}>
             <h2>Coupon de réduction</h2>
             <p>Non</p>
@@ -173,14 +216,10 @@ export default function StartPay() {
             <h2>Total</h2>
             <p>{CartAmount()}€</p>
           </div>
-          <Elements stripe={stripePromise}>
-            <CheckoutForm />
-          </Elements>
+          
         </div>
       </div>
-      <Link href="/paiment">
-        <button className={style.purchase_btn}>Proceder a l'achat</button>
-      </Link>
+    </div>
     </>
   );
 }

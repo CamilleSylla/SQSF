@@ -6,11 +6,12 @@ import style from "../styles/panierlist.module.scss";
 export default function PanierList() {
   const [cart, setCart] = useContext(CartContext);
 
-console.log(cart);
 function updateItem (e, key) {
-  cart[key].quantity = e
-  console.log(cart);
+  let newArr = [...cart]
+  newArr[key].quantity = e 
+  setCart(newArr)
 }
+
   
   return (
     <>
@@ -20,10 +21,11 @@ function updateItem (e, key) {
           <th>Quantité</th>
           <th>Revendeur</th>
           <th>Prix Unité TTC</th>
-          <th>Prix Total</th>
+          <th>Option de recupération produit</th>
+          <th>Supprimer</th>
         </tr>
         {cart.map((items, i) => {
-          const { image, name, quantity, size, vendeur, price } = items;
+          const { image, name, quantity, size, vendeur, price, delivery_options, brand } = items;
 
           return (
             <tr key={i}>
@@ -49,7 +51,19 @@ function updateItem (e, key) {
               </th>
               <th>{vendeur}</th>
               <th>{price}€</th>
-              <th>{price * quantity}€</th>
+              <th>{delivery_options.map((options,i) => {
+                switch (options.type) {
+                  case "Livraison":
+                    return options.type
+                  case "ClickCollect" :
+                    return (<>
+                      <p>{options.type}</p>
+                      <p>Retrait le : {options.date}</p>
+                      <p>A : {options.time}</p>
+                      </>
+                    )
+                }
+              })}</th>
             </tr>
           );
         })}

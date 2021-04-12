@@ -17,7 +17,10 @@ export default function Home({ items, filters }) {
         <HomePopular id="categories" data={filters}/>
         <HomePopular id="vendeurs" data={filters}/>
         <HomePopular id="promotions"/>
-        <ItemGrid items={items}/>
+        <h5 style={{ fontSize: "4.5vh", textAlign: "center" }}>
+        Les Nouveautés de SQMarket
+      </h5>
+        <ItemGrid items={items} limit={24}/>
         
       </div>
     </>
