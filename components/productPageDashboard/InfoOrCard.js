@@ -9,9 +9,9 @@ import { storage } from "../../firebase/firebase";
 export default function InfoOrCard({
   addItem,
   target,
-  sizes,
   getGenre,
   getCategories,
+  sizesSelect,
 }) {
   const [user, setUser] = useContext(UserContext);
   const [item, setItem] = useState({
@@ -19,14 +19,35 @@ export default function InfoOrCard({
     vendeur_id: user.id,
   });
   const [image, setImage] = useState([]);
+  const [typeSize, setTypeSize] = useState();
+  const [sizes, setSizes] = useState({});
 
   const fileList = [];
 
-  // const handleChange = e => {
-  //       if (e.target.files[0]) {
-  //           setImage(e.target.files[0])
-  //       }
-  //   };
+  function sizeTable() {
+    return (
+      <div>
+        {typeSize.sizes.map((sizes, i) => {
+          return (
+            <div>
+              {sizes}
+              <input type="number" onChange={e => onSizeChange(sizes, e.target.value)}/>
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
+
+  const pickSize = (e) => {
+    const target = sizesSelect.find((size) => (size._id == e.target.value));
+    setTypeSize(target);
+  };
+
+  function onSizeChange (key, e) {
+    setSizes({...sizes, [key]: e})
+    console.log(sizes);
+  } 
 
   function handleChange(e, key) {
     console.log(e.target.files[0], key);
@@ -48,7 +69,7 @@ export default function InfoOrCard({
   const fileUrl = [];
 
   function handleUpload(e) {
-    e.preventDefault()
+    e.preventDefault();
     if (image.length) {
       const allUrl = Promise.all(
         image.map((singleImage) => {
@@ -77,28 +98,32 @@ export default function InfoOrCard({
             );
           });
         })
-      )
-        .then((allUrls) => {
-          let config = {
-            headers: {
-              vendeur_auth_token: user.token,
-            },
-          };
-          console.log({...item, images: allUrls});
-          axios
-            .post(`http://localhost:3001/api/items/create`, {...item, images: allUrls}, config)
-            .then((res) => console.log(res))
-            .catch((err) => console.log(err));
-        })
+      ).then((allUrls) => {
+        let config = {
+          headers: {
+            vendeur_auth_token: user.token,
+          },
+        };
+        console.log({ ...item, images: allUrls, sizes:sizes });
+        axios
+          .post(
+            `http://localhost:3001/api/items/create`,
+            { ...item, images: allUrls, sizes:sizes },
+            config
+          )
+          .then((res) => console.log(res))
+          .catch((err) => console.log(err));
+      });
     } else {
-      console.log("vous devez inserer au moin une image pour présenter votre produit");
+      console.log(
+        "vous devez inserer au moin une image pour présenter votre produit"
+      );
     }
-    
   }
-  function onItemChange (e, key) {
-    setItem({...item, [key]: e.target.value})
+  function onItemChange(e, key) {
+    setItem({ ...item, [key]: e.target.value });
   }
-  
+
   switch (addItem) {
     case true:
       return (
@@ -133,6 +158,7 @@ export default function InfoOrCard({
               </div>
               <h6 style={{ marginTop: "10px" }}>Stock produit</h6>
             </div>
+
             <table className={style.size}>
               <thead>
                 <th>XS</th>
@@ -141,7 +167,6 @@ export default function InfoOrCard({
                 <th>L</th>
                 <th>XL</th>
               </thead>
-              {target ? sizes() : null}
             </table>
           </div>
         </div>
@@ -173,17 +198,17 @@ export default function InfoOrCard({
               <label>Fiche produit</label>
               <input
                 type="text"
-                onChange={e => onItemChange(e, "name")}
+                onChange={(e) => onItemChange(e, "name")}
                 placeholder="Nom du produit"
               />
               <input
                 type="text"
-                onChange={e => onItemChange(e, "brand")}
+                onChange={(e) => onItemChange(e, "brand")}
                 placeholder="Marque"
               />
               <input
                 type="number"
-                onChange={e => onItemChange(e, "price")}
+                onChange={(e) => onItemChange(e, "price")}
                 min="0.01"
                 step="0.01"
                 placeholder="Prix"
@@ -192,29 +217,29 @@ export default function InfoOrCard({
               {item.price ? <SimulateurPrix price={item.price} /> : null}
               <input
                 type="number"
-                onChange={e => onItemChange(e, "promotion")}
+                onChange={(e) => onItemChange(e, "promotion")}
                 placeholder="Promotion"
               />
-              <select onChange={e => onItemChange(e, "categorie")}>
-                  <option value="">
-                    {item.categorie
-                      ? `Ce poduit est catégoriser sous " ${item.categorie} "`
-                      : "Veuillez une catégorie de produit"}
-                  </option>
-                  {getCategories.map((cat) => {
-                    return <option value={cat.name}>{cat.name}</option>;
-                  })}
-                </select>
-                <select onChange={e => onItemChange(e, "genre")}>
-                  <option value="">
-                    {item.genre
-                      ? `Ce poduit est classer sous le genre " ${item.genre} "`
-                      : "Veuillez une genrer ce produit"}
-                  </option>
-                  {getGenre.map((genre) => {
-                    return <option value={genre.name}>{genre.name}</option>;
-                  })}
-                </select>
+              <select onChange={(e) => onItemChange(e, "categorie")}>
+                <option value="">
+                  {item.categorie
+                    ? `Ce poduit est catégoriser sous " ${item.categorie} "`
+                    : "Veuillez une catégorie de produit"}
+                </option>
+                {getCategories.map((cat) => {
+                  return <option value={cat.name}>{cat.name}</option>;
+                })}
+              </select>
+              <select onChange={(e) => onItemChange(e, "genre")}>
+                <option value="">
+                  {item.genre
+                    ? `Ce poduit est classer sous le genre " ${item.genre} "`
+                    : "Veuillez une genrer ce produit"}
+                </option>
+                {getGenre.map((genre) => {
+                  return <option value={genre.name}>{genre.name}</option>;
+                })}
+              </select>
               <label>Images du produit</label>
               <table className={style.import_image}>
                 <thead>
@@ -268,52 +293,27 @@ export default function InfoOrCard({
                   </tr>
                 </tbody>
               </table>
-              <label>Stock disponible</label>
-              <table>
-                <thead>
-                  <tr>
-                    <th>XS</th>
-                    <th>S</th>
-                    <th>M</th>
-                    <th>L</th>
-                    <th>XL</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th><input type="number" min="0" onChange={e => onItemChange(e, "xs")} placeholder="XS" /></th>
-                    <th><input type="number"min="0" onChange={e => onItemChange(e, "s")} placeholder="S" /></th>
-                    <th><input type="number" min="0" onChange={e => onItemChange(e, "m")} placeholder="M" /></th>
-                    <th><input type="number" min="0" onChange={e => onItemChange(e, "l")} placeholder="L" /></th>
-                    <th><input type="number" min="0" onChange={e => onItemChange(e, "xl")} placeholder="XL" /></th>
-                    {/* <th><input
-                  type="number"
-                  onChange={onuniqueChange}
-                  placeholder="Unique"
-                /></th> */}
-                    
-                  </tr>
-                </tbody>
-              </table>
+              <label>Stock disponible par taille</label>
+              <select onChange={pickSize}>
+                <option>Selectionner un type de taille</option>
+                {sizesSelect.map((sizes, i) => {
+                  return <option value={sizes._id}>{sizes.name}</option>;
+                })}
+              </select>
+              {typeSize ? sizeTable() : null}
               <div className={style.create_size}>
-                
-                
-                
-                
-                
-                
                 <label>Informations produit</label>
                 <textarea
                   type="text"
-                  onChange={e => onItemChange(e, "description")}
+                  onChange={(e) => onItemChange(e, "description")}
                   placeholder="Description du produit"
                 />
                 <input
                   type="text"
-                  onChange={e => onItemChange(e, "matiere")}
+                  onChange={(e) => onItemChange(e, "matiere")}
                   placeholder="Matiere"
                 />
-                
+
                 <input type="submit" value="Ajouter" />
               </div>
             </form>

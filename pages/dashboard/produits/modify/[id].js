@@ -7,7 +7,7 @@ import style from "../../../../styles/maindashboard.module.scss";
 import product from "../../../../styles/modifyproduct.module.scss";
 import { storage } from "../../../../firebase/firebase";
 
-export default function ModifyProduct({ item_m, getGenre, getCategorie }) {
+export default function ModifyProduct({ item_m, getGenre, getCategorie, sizesSelect }) {
   const [user, setUser] = useContext(UserContext);
   const [delivery, setDelivery] = useState({
     type: null,
@@ -18,6 +18,8 @@ export default function ModifyProduct({ item_m, getGenre, getCategorie }) {
     image2: null,
     image3: null,
   });
+  const [typeSize, setTypeSize] = useState();
+  const [sizes, setSizes] = useState({});
 
   const handleChange = (e, imageSelector) => {
     switch (imageSelector) {
@@ -265,17 +267,40 @@ export default function ModifyProduct({ item_m, getGenre, getCategorie }) {
         vendeur: user.society,
       },
     };
-    console.log(item);
     axios
       .patch(
         `http://localhost:3001/api/items/update/product/${item._id}`,
-        { ...item },
+        { ...item, sizes:sizes },
         config
       )
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
     e.preventDefault();
   };
+  const pickSize = (e) => {
+    const target = sizesSelect.find((size) => (size._id == e.target.value));
+    setTypeSize(target);
+  };
+
+  function sizeTable() {
+    return (
+      <div>
+        {typeSize.sizes.map((sizes, i) => {
+          return (
+            <div>
+              {sizes}
+              <input type="number" onChange={e => onSizeChange(sizes, e.target.value)}/>
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
+
+  function onSizeChange (key, e) {
+    setSizes({...sizes, [key]: e})
+    console.log(sizes);
+  } 
 
   return (
     <>
@@ -343,6 +368,7 @@ export default function ModifyProduct({ item_m, getGenre, getCategorie }) {
               </select>
               {toogleDelivery(delivery.type)}
               <button onClick={ValidateDel}>Valider la methode de livraison</button>
+
               <input
                 type="text"
                 onChange={onNameChange}
@@ -353,6 +379,13 @@ export default function ModifyProduct({ item_m, getGenre, getCategorie }) {
                 onChange={onBrandChange}
                 placeholder={`Marque - ${item.brand}`}
               />
+              <select onChange={pickSize}>
+                <option>Selectionner un type de taille</option>
+                {sizesSelect.map((sizes, i) => {
+                  return <option value={sizes._id}>{sizes.name}</option>;
+                })}
+              </select>
+                {typeSize ? sizeTable() : null}
               <input
                 type="number"
                 onChange={onpriceChange}
@@ -369,36 +402,7 @@ export default function ModifyProduct({ item_m, getGenre, getCategorie }) {
                     : "promotion"
                 }
               />
-              <input
-                type="number"
-                onChange={onxsChange}
-                placeholder={`XS - ${item.xs}`}
-              />
-              <input
-                type="number"
-                onChange={onsChange}
-                placeholder={`S - ${item.s}`}
-              />
-              <input
-                type="number"
-                onChange={onmChange}
-                placeholder={`M - ${item.m}`}
-              />
-              <input
-                type="number"
-                onChange={onlChange}
-                placeholder={`L - ${item.l}`}
-              />
-              <input
-                type="number"
-                onChange={onxlChange}
-                placeholder={`XL - ${item.xl}`}
-              />
-              <input
-                type="number"
-                onChange={onuniqueChange}
-                placeholder={`Taille unique - ${item.unique}`}
-              />
+              
               <textarea
                 type="text"
                 onChange={ondescriptionChange}
@@ -464,11 +468,21 @@ export async function getServerSideProps({ params }) {
     })
     .catch((err) => console.log(err));
 
+    const sizesSelect = await axios
+    .get(`http://localhost:3001/api/sizes/all/sizes`)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
   return {
     props: {
       item_m,
       getGenre,
       getCategorie,
+      sizesSelect
     },
   };
 }

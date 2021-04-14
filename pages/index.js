@@ -20,7 +20,7 @@ export default function Home({ items, filters }) {
         <h5 style={{ fontSize: "4.5vh", textAlign: "center" }}>
         Les Nouveautés de SQMarket
       </h5>
-        <ItemGrid items={items} limit={24}/>
+        <ItemGrid items={items} limit={4}/>
         
       </div>
     </>

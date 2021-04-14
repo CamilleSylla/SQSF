@@ -6,14 +6,12 @@ import styles from "../styles/iteminfos.module.scss";
 import Link from "next/link";
 
 export default function ItemInfos({ item }) {
-  const [vendeur, setVendeur] =  useState(null)
+  console.log(item);
+  const [vendeur, setVendeur] = useState(null);
   const [cart, setCart] = useContext(CartContext);
-  // const [delivery, setDelivery] = useState({
-  //   type: null,
-  // });
   const [delivery, setDelivery] = useState({
-    type: null
-  })
+    type: null,
+  });
   const [picked, setPicked] = useState({
     item_id: item._id,
     name: item.name,
@@ -22,25 +20,22 @@ export default function ItemInfos({ item }) {
     image: item.images[0],
     price: item.price,
     quantity: 1,
-    delivery_options: []
+    delivery_options: [],
   });
 
-  console.log(item.delivery_options);
   const [imageDisplay, setImageDisplay] = useState(0);
 
   function AddCart() {
-    picked.delivery_options.push(delivery)
+    picked.delivery_options.push(delivery);
     cart.push(picked);
-    console.log(cart);
   }
 
   function targetImage(num) {
     setImageDisplay(num);
   }
 
-  function delConditions (e, key) {
-    setDelivery({...delivery, [key]: e})
-    console.log(delivery);
+  function delConditions(e, key) {
+    setDelivery({ ...delivery, [key]: e });
   }
   function toogleDelivery(type) {
     function timeFraction() {
@@ -62,18 +57,25 @@ export default function ItemInfos({ item }) {
       case "ClickCollect":
         return (
           <>
-            <input type="date" id="start" name="trip-start"
-       min={new Date()} max="2050-12-31" onChange={e => delConditions(e.target.value, "date")}></input>
-            <select onChange={e => delConditions(e.target.value, "time")}>
+            <input
+              type="date"
+              id="start"
+              name="trip-start"
+              min={new Date()}
+              max="2050-12-31"
+              onChange={(e) => delConditions(e.target.value, "date")}
+            ></input>
+            <select onChange={(e) => delConditions(e.target.value, "time")}>
               <option>Heure</option>
-                {timeFraction().map((time, i) => {
-                  return (
-                    <option key={i}
-                      value={`${time.hours}:${time.minutes}`}
-                    >{`${time.hours}:${time.minutes}`}</option>
-                  );
-                })}
-              </select>
+              {timeFraction().map((time, i) => {
+                return (
+                  <option
+                    key={i}
+                    value={`${time.hours}:${time.minutes}`}
+                  >{`${time.hours}:${time.minutes}`}</option>
+                );
+              })}
+            </select>
           </>
         );
       default:
@@ -81,16 +83,27 @@ export default function ItemInfos({ item }) {
     }
   }
 
+  
+   function sizeOptions () {
+    const result = []
+    Object.keys(item.sizes).forEach((key) => {
+    console.log(key, item.sizes[key]);
+    result.push(key)
+  })
+  console.log(result);
+  return result
+}
 
   useEffect(() => {
-    axios.get(`http://localhost:3001/api/vendeur/${item.vendeur_id}`)
-    .then((res) => {
-      setVendeur(res.data)
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  },[])
+    axios
+      .get(`http://localhost:3001/api/vendeur/${item.vendeur_id}`)
+      .then((res) => {
+        setVendeur(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
   return (
     <>
       <section className={styles.iteminfos}>
@@ -194,89 +207,44 @@ export default function ItemInfos({ item }) {
                 />
               </div>
               <Link href={`/profil/${item.vendeur_id}`}>
-              <div style={{cursor: "pointer"}}>
-                <h5>{vendeur ? vendeur.society : "Chargement..."}</h5>
-                
-                <p >Consulter le profil du vendeur</p>
+                <div style={{ cursor: "pointer" }}>
+                  <h5>{vendeur ? vendeur.society : "Chargement..."}</h5>
 
-              </div>
-                </Link>
+                  <p>Consulter le profil du vendeur</p>
+                </div>
+              </Link>
             </div>
             <div className={styles.delivery_options}>
-               <select onChange={(e) => setDelivery({type: e.target.value })} >
-                 <option>Mode de livraison disponible</option>
-                 {item.delivery_options.map((option, i) => {
-                   return (
-                     <option value={option.type}>{option.type}</option>
-                   )
-                 })}
-               </select>
-               {toogleDelivery(delivery.type)}
+              <select onChange={(e) => setDelivery({ type: e.target.value })}>
+                <option>Mode de livraison disponible</option>
+                {item.delivery_options.map((option, i) => {
+                  return <option value={option.type}>{option.type}</option>;
+                })}
+              </select>
+              {toogleDelivery(delivery.type)}
+            </div>
+            <div className={styles.delivery_options}>
+              <select
+                onChange={(e) => setPicked({ ...picked, size: e.target.value })}
+              >
+                <option>Selectionner une taille</option>
+                {sizeOptions().map((size, i) => {
+                  return <option key={i} value={size}>{size}</option>
+                })}
+              </select>
             </div>
             <div onClick={() => AddCart()} className={styles.btn_container}>
-               <div className={styles.btn}>
-                 <p>Ajouter au panier</p>
-               </div>
+              <div className={styles.btn}>
+                <p>Ajouter au panier</p>
+              </div>
             </div>
             <div className={styles.btn_container}>
-               <div className={styles.btn}>
-
-                 <p>Contacter le vendeur</p>
-               </div>
+              <div className={styles.btn}>
+                <p>Contacter le vendeur</p>
+              </div>
             </div>
           </div>
         </div>
-        {/* <div className={styles.image_displayer}>
-          <div className={styles.main_image}>
-            
-          </div>
-          <div className={styles.additionnal_image_wrapper}>
-            <div className={styles.additionnal_image}>
-              <Image
-                src={item.images[1] ? item.images[1] : "/image.svg"}
-                alt="imagecont"
-                layout="fill"
-                sizes="100%"
-                objectFit="cover"
-              />
-            </div>
-            <div className={styles.additionnal_image}>
-              <Image
-                src={item.images[2] ? item.images[2] : "/image.svg"}
-                alt="imagecont"
-                layout="fill"
-                sizes="100%"
-                objectFit="cover"
-              />
-            </div>
-          </div>
-        </div>
-        <article>
-          <h1>{item.name}</h1>
-          <h2>{item.brand}</h2>
-          <p className={styles.product_desc}>
-            {item.description}
-          </p>
-          <h3>{item.price}€</h3>
-          <div className={styles.categroy_grid}>
-            <p>{item.categorie}</p>
-            {item.matiere.map(mat => <p>{mat}</p>)}
-          </div>
-          <div className={styles.sizing_wrapper}>
-            <button value="xs" onClick={onSizePicked}>XS</button>
-            <button value="s" onClick={onSizePicked}>S</button>
-            <button value="m" onClick={onSizePicked}>M</button>
-            <button value="l" onClick={onSizePicked}>L</button>
-            <button value="xl" onClick={onSizePicked}>XL</button>
-          </div>
-          <div className={styles.final_operations_wrapper}>
-            <div className={styles.final_operations}>
-              <input type="number" placeholder="1" onChange={onQuantityPicked}/>
-              <button onClick={() => AddCart()}>Ajouter au panier</button>
-            </div>
-            <p>Partager cette article</p>
-          </div>
-        </article> */}
       </section>
     </>
   );

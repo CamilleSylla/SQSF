@@ -29,21 +29,20 @@ export default function HomePopular({ id, data }) {
               return (
                 <Link href={`/market/${item.name}`}>
                   <div key={i} className={style.param_cards}>
-                  <div className={style.param_crad_img}>
-                    <Image
-                      src={item.image ? item.image : "/image.svg"}
-                      alt="imagestuff"
-                      layout="fill"
-                      sizes="100%"
-                      objectFit="cover"
-                    />
+                    <div className={style.param_crad_img}>
+                      <Image
+                        src={item.image ? item.image : "/image.svg"}
+                        alt="imagestuff"
+                        layout="fill"
+                        sizes="100%"
+                        objectFit="cover"
+                      />
+                    </div>
+                    <h5>{item.name}</h5>
+                    <p>"item.length" produits</p>
+                    {/* <p>{item.numProduct} produits</p>  */}
                   </div>
-                  <h5>{item.name}</h5>
-                  <p>"item.length" produits</p>
-                  {/* <p>{item.numProduct} produits</p>  */}
-                </div>
                 </Link>
-                
               );
             })}
           </>
@@ -54,26 +53,25 @@ export default function HomePopular({ id, data }) {
             {data.vendeurs.map((vendeur, i) => {
               return (
                 <Link href={`/profil/${vendeur._id}`}>
-<div key={i} className={style.param_cards}>
-                  <div className={style.param_vend_img}>
-                    <Image
-                      src={
-                        vendeur.profile_picture
-                          ? vendeur.profile_picture
-                          : "/image.svg"
-                      }
-                      alt="imagestuff"
-                      layout="fill"
-                      sizes="100%"
-                      objectFit="cover"
-                    />
+                  <div key={i} className={style.param_cards}>
+                    <div className={style.param_vend_img}>
+                      <Image
+                        src={
+                          vendeur.profile_picture
+                            ? vendeur.profile_picture
+                            : "/image.svg"
+                        }
+                        alt="imagestuff"
+                        layout="fill"
+                        sizes="100%"
+                        objectFit="cover"
+                      />
+                    </div>
+                    <h5>{vendeur.society}</h5>
+                    <p>"item.length" produits</p>
+                    {/* <p>{item.numProduct} produits</p>  */}
                   </div>
-                  <h5>{vendeur.society}</h5>
-                  <p>"item.length" produits</p>
-                  {/* <p>{item.numProduct} produits</p>  */}
-                </div>
                 </Link>
-                
               );
             })}
           </>
@@ -112,18 +110,20 @@ export default function HomePopular({ id, data }) {
       <h3>{Title()}</h3>
       <div className={style.param_card_container} id={id}>
         {data ? Cards() : null}
-        <div className={style.param_cards}>
-          <div className={style.param_crad_img}>
-            <Image
-              src="/image.svg"
-              alt="imagestuff"
-              layout="fill"
-              sizes="100%"
-              objectFit="cover"
-            />
+        <Link href="/market/all">
+          <div className={style.param_cards}>
+            <div className={style.param_crad_img}>
+              <Image
+                src="/image.svg"
+                alt="imagestuff"
+                layout="fill"
+                sizes="100%"
+                objectFit="cover"
+              />
+            </div>
+            <h5>Tout les produits</h5>
           </div>
-          <h5>En voir +</h5>
-        </div>
+        </Link>
       </div>
     </div>
   );

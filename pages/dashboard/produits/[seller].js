@@ -9,6 +9,7 @@ export default function ProduitsVendeurProfil({
   profil_item,
   getGenre,
   getCategories,
+  allSize
 }) {
   const [hide, setHide] = useState(true);
   const [search, setSearch] = useState("");
@@ -238,7 +239,7 @@ export default function ProduitsVendeurProfil({
                   })}
               </tbody>
             </table>
-            <InfoOrCard addItem={addItem} target={target} sizes={sizes} getGenre={getGenre} getCategories={getCategories} />
+            <InfoOrCard sizesSelect={allSize} addItem={addItem} target={target} sizes={sizes} getGenre={getGenre} getCategories={getCategories} />
           </div>
         </div>
       </div>
@@ -250,6 +251,15 @@ export async function getServerSideProps({ params }) {
   console.log(params.seller);
   const profil_item = await axios
     .get(`http://localhost:3001/api/inventary/produit/${params.seller}`)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+    const allSize = await axios
+    .get(`http://localhost:3001/api/sizes/all/sizes`)
     .then((res) => {
       return res.data;
     })
@@ -275,6 +285,7 @@ export async function getServerSideProps({ params }) {
       profil_item,
       getGenre,
       getCategories,
+      allSize
     },
   };
 }

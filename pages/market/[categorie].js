@@ -4,10 +4,11 @@ import { useState } from "react";
 import CardDisplayer from "../../components/CardDisplayer";
 import Filter from "../../components/Filter";
 import style from "../../styles/market.module.scss";
+import ItemGrid from "../../components/HomePage/ItemsGrid";
 
 export default function Market({ itemsAll, filters }) {
   const [search, setSearch] = useState("");
-  const [toogleFilter, setToogleFilter] = useState(false);
+  const [toogleFilter, setToogleFilter] = useState(true);
   const viewItem = itemsAll
   const [items, setItems] = useState(viewItem)
   const [isChecked, setIsChecked] = useState({})
@@ -30,10 +31,10 @@ export default function Market({ itemsAll, filters }) {
         </div>
 
         <div className={style.filter_and_cards}>
-        {toogleFilter == true ? <Filter isChecked={isChecked} setIsChecked={setIsChecked} cat={filters} setItem={setItems}/> : null}
-
-        <CardDisplayer
-          data={items.filter((filtered) => {
+        {/* {toogleFilter == true ? <Filter isChecked={isChecked} setIsChecked={setIsChecked} cat={filters} setItem={setItems}/> : null} */}
+        <Filter isChecked={isChecked} setIsChecked={setIsChecked} cat={filters} setItem={setItems}/>
+        <ItemGrid 
+        items={items.filter((filtered) => {
             if (search == "") {
               return filtered;
             } else if (
@@ -50,7 +51,7 @@ export default function Market({ itemsAll, filters }) {
               return filtered;
             }
           })}
-        />
+          limit={24}/>
         </div>
 
         

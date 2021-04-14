@@ -10,7 +10,7 @@ export default function ItemGrid({items, limit}) {
       <div className={style.item_grid_container}>
         <div className={style.item_grid}>
           {items.map((item, i) => {
-            while (i <= limit) {
+            while (i <= limit -1) {
               return (
                 <Link href={`/product/${item._id}`}>
                   <div className="item_card">

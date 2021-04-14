@@ -5,7 +5,9 @@ export default function Filter({ isChecked, setIsChecked, cat, setItem }) {
   function setFilter(e, cat) {
     setIsChecked({ ...isChecked, [cat]: [e.target.value] });
     console.log(isChecked);
+    onSubmit()
   }
+  console.log(cat);
 
   function onSubmit() {
     axios
@@ -15,6 +17,7 @@ export default function Filter({ isChecked, setIsChecked, cat, setItem }) {
         },
       })
       .then((res) => {
+        console.log(res.data);
         setItem(res.data);
       });
   }
@@ -24,20 +27,22 @@ export default function Filter({ isChecked, setIsChecked, cat, setItem }) {
       <div className={style.filter_container}>
         <div>
           <p className={style.filter_labels}>Catégories</p>
-          {cat.categories.map((cat) => {
+          {cat.categories.map((cat, i) => {
             return (
-              <ol>
-                <li>
-                  <input
-                    type="checkbox"
-                    id="scales"
-                    name="scales"
-                    value={cat}
-                    onClick={(e) => setFilter(e, "categorie")}
-                  />
-                  <label>{cat}</label>
-                </li>
-              </ol>
+              <>
+                <ol key={i}>
+                  <li>
+                    <input
+                      type="checkbox"
+                      id="scales"
+                      name="scales"
+                      value={cat.name}
+                      onClick={(e) => setFilter(e, "categorie")}
+                    />
+                    <label>{cat.name}</label>
+                  </li>
+                </ol>
+              </>
             );
           })}
           <p className={style.filter_labels}>Vendeurs</p>
@@ -49,10 +54,10 @@ export default function Filter({ isChecked, setIsChecked, cat, setItem }) {
                     type="checkbox"
                     id="scales"
                     name="scales"
-                    value={vendeur}
+                    value={vendeur.society}
                     onClick={(e) => setFilter(e, "vendeur")}
                   />
-                  <label>{vendeur}</label>
+                  <label>{vendeur.society}</label>
                 </li>
               </ol>
             );
@@ -92,8 +97,13 @@ export default function Filter({ isChecked, setIsChecked, cat, setItem }) {
             );
           })}
         </div>
-      <div onClick={() => onSubmit()}>Appliquer les filtres</div>
       </div>
     </>
+    // <>
+    //   <div className={style.filter_container}>
+    //
+    //   <div onClick={() => onSubmit()}>Appliquer les filtres</div>
+    //   </div>
+    // </>
   );
 }

@@ -112,8 +112,11 @@ let option
               />
             </div>
             <div className={style.nav_logs}>
+              <Link href="/register">
+                {user ? connectedUser() : <p> Devenir vendeur </p>}
+              </Link>
               <Link href="/connection">
-                {user ? connectedUser() : <p> Creer un compte vendeur </p>}
+                <p> Connection </p>
               </Link>
             </div>
           </div>
@@ -132,6 +135,9 @@ let option
             {dropdown ? selectOption(dropdown.brands, "brand") : null}
               
             </select>
+
+            <p className={style.nav_dropdown}>A Propos</p>
+            <p className={style.nav_dropdown}>Contact</p>
 
             <div className={style.nav_button_wrapper}>
               <Link href="/panier">
