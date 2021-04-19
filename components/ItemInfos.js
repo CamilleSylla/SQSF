@@ -90,7 +90,7 @@ export default function ItemInfos({ item }) {
     console.log(key, item.sizes[key]);
     result.push(key)
   })
-  console.log(result);
+  console.log("sizeOption", result);
   return result
 }
 

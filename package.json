@@ -10,6 +10,7 @@
   "dependencies": {
     "@stripe/react-stripe-js": "^1.4.0",
     "@stripe/stripe-js": "^1.13.2",
+    "antd": "^4.15.2",
     "axios": "^0.21.1",
     "dotenv": "^8.2.0",
     "firebase": "^8.2.10",

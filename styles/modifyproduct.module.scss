@@ -2,6 +2,52 @@
     width: 80%;
     display: flex;
     justify-content: space-evenly;
+    align-items: center;
+    .new_product_wrapper {
+        width: 80%;
+        max-height: 650px;
+        overflow: hidden;
+        overflow-y: scroll;
+        border-radius: 15px;
+        border: 2px solid lightgray;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        section {
+            width: 80%;
+            height: 250px;
+            display: flex;
+            flex-direction: column;
+            label, input, textarea, div, select, button {
+                margin-top: 15px;
+            }
+            label {
+                font-size: 2.5vh;
+                font-weight: 600;
+                margin-top: 25px;
+            }
+            input {
+                width: 33%;
+            }
+            textarea {
+                width: 45%;
+                height: 100px;
+            }
+            div {
+                display: flex;
+                justify-content: space-evenly;
+                .imagePic {
+                    display: flex;
+                    flex-direction: column;
+                    .imageContainer{
+                        position: relative;
+                        width: 80%;
+                        height: 100px;
+                    }
+                }
+            }
+        }
+    }
 }
 
 .imageschoice {

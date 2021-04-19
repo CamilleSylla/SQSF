@@ -8,7 +8,6 @@ import ItemGrid from "../../components/HomePage/ItemsGrid";
 
 export default function Market({ itemsAll, filters }) {
   const [search, setSearch] = useState("");
-  const [toogleFilter, setToogleFilter] = useState(true);
   const viewItem = itemsAll
   const [items, setItems] = useState(viewItem)
   const [isChecked, setIsChecked] = useState({})
@@ -27,7 +26,6 @@ export default function Market({ itemsAll, filters }) {
         </section>
         <div className={style.filter_and_search}>
           <input className="input_neumorph" placeholder="Recherche" type="text" onChange={(e) => setSearch(e.target.value)} />
-            <div className={style.display_filter} onClick={() => setToogleFilter(!toogleFilter)}>{toogleFilter == true ? "Annuler" :  "+ Afficher les filtres"}</div>
         </div>
 
         <div className={style.filter_and_cards}>

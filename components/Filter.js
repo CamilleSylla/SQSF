@@ -1,13 +1,15 @@
 import axios from "axios";
 import style from "../styles/filter.module.scss";
+import CheckBox from "./MarketPage/Checkbox";
 
 export default function Filter({ isChecked, setIsChecked, cat, setItem }) {
   function setFilter(e, cat) {
+    // const exist = isChecked.includes({[cat]: e})
+
     setIsChecked({ ...isChecked, [cat]: [e.target.value] });
-    console.log(isChecked);
-    onSubmit()
+    
+    console.log("Apres set Filter", isChecked);
   }
-  console.log(cat);
 
   function onSubmit() {
     axios
@@ -17,17 +19,18 @@ export default function Filter({ isChecked, setIsChecked, cat, setItem }) {
         },
       })
       .then((res) => {
-        console.log(res.data);
+        console.log("Resultat requet Back",res.data);
         setItem(res.data);
       });
   }
 
   return (
     <>
-      <div className={style.filter_container}>
-        <div>
-          <p className={style.filter_labels}>Catégories</p>
-          {cat.categories.map((cat, i) => {
+        <CheckBox cat={cat} isChecked={isChecked} setIsChecked={setIsChecked}/>
+      {/* <div className={style.filter_container}> */}
+        {/* <div> */}
+          {/* <p className={style.filter_labels}>Catégories</p> */}
+          {/* {cat.categories.map((cat, i) => {
             return (
               <>
                 <ol key={i}>
@@ -96,8 +99,9 @@ export default function Filter({ isChecked, setIsChecked, cat, setItem }) {
               </ol>
             );
           })}
-        </div>
-      </div>
+        </div> */}
+        {/* <button onClick={() => onSubmit()}> Valider Filtres </button>
+      </div> */}
     </>
     // <>
     //   <div className={style.filter_container}>

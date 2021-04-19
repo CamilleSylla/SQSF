@@ -3,7 +3,6 @@ import style from "../../styles/home_itemgrid.module.scss";
 import Link from "next/link";
 
 export default function ItemGrid({items, limit}) {
-  console.log(items);
   return (
     <>
       

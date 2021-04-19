@@ -7,7 +7,12 @@ import style from "../../../../styles/maindashboard.module.scss";
 import product from "../../../../styles/modifyproduct.module.scss";
 import { storage } from "../../../../firebase/firebase";
 
-export default function ModifyProduct({ item_m, getGenre, getCategorie, sizesSelect }) {
+export default function ModifyProduct({
+  item_m,
+  getGenre,
+  getCategorie,
+  sizesSelect,
+}) {
   const [user, setUser] = useContext(UserContext);
   const [delivery, setDelivery] = useState({
     type: null,
@@ -179,29 +184,34 @@ export default function ModifyProduct({ item_m, getGenre, getCategorie, sizesSel
   }
 
   function toogleDelivery(type) {
-    function delConditions (e, key) {
-        setDelivery({...delivery, [key]: e})
-        console.log(delivery);
+    function delConditions(e, key) {
+      setDelivery({ ...delivery, [key]: e });
+      console.log(delivery);
     }
-
 
     switch (type) {
       case "Livraison":
         return (
           <>
-            <select onChange={e => delConditions(e.target.value, "perimetre")}>
+            <select
+              onChange={(e) => delConditions(e.target.value, "perimetre")}
+            >
               <option>Ville</option>
               <option value="SaintQuentin">Saint-Quentin</option>
               <option value="Aisne">Aisne</option>
               <option value="France">France</option>
             </select>
-            <input type="num" placeholder="Tarif de livraison" onChange={e => delConditions(e.target.value, "tarif")}/>
+            <input
+              type="num"
+              placeholder="Tarif de livraison"
+              onChange={(e) => delConditions(e.target.value, "tarif")}
+            />
           </>
         );
       case "ClickCollect":
         return (
           <>
-            <select onChange={e => delConditions(e.target.value, "start")}>
+            <select onChange={(e) => delConditions(e.target.value, "start")}>
               <option>Du (Premier jour d'ouverture de la boutique)</option>
               <option value="1">Lundi</option>
               <option value="2">Mardi</option>
@@ -210,8 +220,8 @@ export default function ModifyProduct({ item_m, getGenre, getCategorie, sizesSel
               <option value="5">Vendredi</option>
               <option value="6">Samedi</option>
             </select>
-            <select onChange={e => delConditions(e.target.value, "end")}>
-            <option>Au (Dernier jour d'ouverture de la boutique)</option>
+            <select onChange={(e) => delConditions(e.target.value, "end")}>
+              <option>Au (Dernier jour d'ouverture de la boutique)</option>
               <option value="1">Lundi</option>
               <option value="2">Mardi</option>
               <option value="3">Mercredi</option>
@@ -220,26 +230,28 @@ export default function ModifyProduct({ item_m, getGenre, getCategorie, sizesSel
               <option value="6">Samedi</option>
               <option value="7">Dimanche</option>
             </select>
-            <select onChange={e => delConditions(e.target.value, "time_start")}>
+            <select
+              onChange={(e) => delConditions(e.target.value, "time_start")}
+            >
               <option>De (Horraire ouverture de l'entreprise)</option>
-                {timeFraction().map((time, i) => {
-                  return (
-                    <option
-                      value={`${time.hours}:${time.minutes}`}
-                    >{`${time.hours}:${time.minutes}`}</option>
-                  );
-                })}
-              </select>
-              <select onChange={e => delConditions(e.target.value, "time_end")}>
+              {timeFraction().map((time, i) => {
+                return (
+                  <option
+                    value={`${time.hours}:${time.minutes}`}
+                  >{`${time.hours}:${time.minutes}`}</option>
+                );
+              })}
+            </select>
+            <select onChange={(e) => delConditions(e.target.value, "time_end")}>
               <option>De (Horraire fermeture de l'entreprise)</option>
-                {timeFraction().map((time, i) => {
-                  return (
-                    <option
-                      value={`${time.hours}:${time.minutes}`}
-                    >{`${time.hours}:${time.minutes}`}</option>
-                  );
-                })}
-              </select>
+              {timeFraction().map((time, i) => {
+                return (
+                  <option
+                    value={`${time.hours}:${time.minutes}`}
+                  >{`${time.hours}:${time.minutes}`}</option>
+                );
+              })}
+            </select>
           </>
         );
       default:
@@ -247,17 +259,16 @@ export default function ModifyProduct({ item_m, getGenre, getCategorie, sizesSel
     }
   }
 
-  const ValidateDel = e => {
-    e.preventDefault()
+  const ValidateDel = (e) => {
+    e.preventDefault();
     if (item.delivery_options) {
-      item.delivery_options.push(delivery)
-
+      item.delivery_options.push(delivery);
     } else {
-      setItem({...item, delivery_options: [delivery]})
+      setItem({ ...item, delivery_options: [delivery] });
     }
-    setDelivery({type: null})
-  }
- 
+    setDelivery({ type: null });
+  };
+
   const Submit = (e) => {
     e.preventDefault();
 
@@ -267,10 +278,16 @@ export default function ModifyProduct({ item_m, getGenre, getCategorie, sizesSel
         vendeur: user.society,
       },
     };
+    const toogleSize = () => {
+      if (Object.keys(sizes).length > 0) return { ...item, sizes: sizes };
+      return { ...item };
+    };
+
+    console.log(toogleSize());
     axios
       .patch(
         `http://localhost:3001/api/items/update/product/${item._id}`,
-        { ...item, sizes:sizes },
+        toogleSize(),
         config
       )
       .then((res) => console.log(res))
@@ -278,7 +295,7 @@ export default function ModifyProduct({ item_m, getGenre, getCategorie, sizesSel
     e.preventDefault();
   };
   const pickSize = (e) => {
-    const target = sizesSelect.find((size) => (size._id == e.target.value));
+    const target = sizesSelect.find((size) => size._id == e.target.value);
     setTypeSize(target);
   };
 
@@ -289,7 +306,10 @@ export default function ModifyProduct({ item_m, getGenre, getCategorie, sizesSel
           return (
             <div>
               {sizes}
-              <input type="number" onChange={e => onSizeChange(sizes, e.target.value)}/>
+              <input
+                type="number"
+                onChange={(e) => onSizeChange(sizes, e.target.value)}
+              />
             </div>
           );
         })}
@@ -297,78 +317,19 @@ export default function ModifyProduct({ item_m, getGenre, getCategorie, sizesSel
     );
   }
 
-  function onSizeChange (key, e) {
-    setSizes({...sizes, [key]: e})
+  function onSizeChange(key, e) {
+    setSizes({ ...sizes, [key]: e });
     console.log(sizes);
-  } 
+  }
 
   return (
     <>
       <div className={style.dashboard_wrapper}>
         <DashboardMenu />
         <div className={product.el_wrapper}>
-          <div className={product.imageschoice}>
-            <div className={product.imagePic}>
-              <div className={product.imageContainer}>
-                <Image
-                  src={item.images[0] ? item.images[0] : "/image.svg"}
-                  alt="Image principal"
-                  layout="fill"
-                  sizes="100%"
-                  objectFit="cover"
-                />
-              </div>
-              <input type="file" onChange={(e) => handleChange(e, "PP")} />
-              <button value="PP" onClick={handleUpload}>
-                Remplacer
-              </button>
-            </div>
-            <div className={product.imagePic}>
-              <div className={product.imageContainer}>
-                <Image
-                  src={item.images[1] ? item.images[1] : "/image.svg"}
-                  alt="Image principal"
-                  layout="fill"
-                  sizes="100%"
-                  objectFit="cover"
-                />
-              </div>
-              <input type="file" onChange={(e) => handleChange(e, "SP")} />
-              <button value="SP" onClick={handleUpload}>
-                Remplacer
-              </button>
-            </div>
-            <div className={product.imagePic}>
-              <div className={product.imageContainer}>
-                <Image
-                  src={item.images[2] ? item.images[2] : "/image.svg"}
-                  alt="Image principal"
-                  layout="fill"
-                  sizes="100%"
-                  objectFit="cover"
-                />
-              </div>
-              <input type="file" onChange={(e) => handleChange(e, "TP")} />
-              <button value="TP" onClick={handleUpload}>
-                Remplacer
-              </button>
-            </div>
-          </div>
-          <div className={product.formModify}>
-            <form>
-              <label>Methode de Livraison</label>
-              <select
-                onChange={(e) =>
-                  setDelivery({type: e.target.value })
-                }
-              >
-                <option>Methode de livraison</option>
-                <option value="Livraison">Livraison</option>
-                <option value="ClickCollect">Click&Collect</option>
-              </select>
-              {toogleDelivery(delivery.type)}
-              <button onClick={ValidateDel}>Valider la methode de livraison</button>
-
+          <div className={product.new_product_wrapper}>
+            <section>
+              <label>Informations de base</label>
               <input
                 type="text"
                 onChange={onNameChange}
@@ -379,7 +340,86 @@ export default function ModifyProduct({ item_m, getGenre, getCategorie, sizesSel
                 onChange={onBrandChange}
                 placeholder={`Marque - ${item.brand}`}
               />
-              <select onChange={pickSize}>
+              <textarea
+                type="text"
+                onChange={ondescriptionChange}
+                placeholder={`Description du produit - ${item.description}`}
+              />
+            </section>
+            <section>
+              <label>Images du produit</label>
+              <div>
+                <div className={product.imagePic}>
+                  <div className={product.imageContainer}>
+                    <Image
+                      src={item.images[0] ? item.images[0] : "/image.svg"}
+                      alt="Image principal"
+                      layout="fill"
+                      sizes="100%"
+                      objectFit="cover"
+                    />
+                  </div>
+                  <input type="file" onChange={(e) => handleChange(e, "PP")} />
+                  <button value="PP" onClick={handleUpload}>
+                    Remplacer
+                  </button>
+                </div>
+                <div className={product.imagePic}>
+                  <div className={product.imageContainer}>
+                    <Image
+                      src={item.images[1] ? item.images[1] : "/image.svg"}
+                      alt="Image principal"
+                      layout="fill"
+                      sizes="100%"
+                      objectFit="cover"
+                    />
+                  </div>
+                  <input type="file" onChange={(e) => handleChange(e, "SP")} />
+                  <button value="SP" onClick={handleUpload}>
+                    Remplacer
+                  </button>
+                </div>
+                <div className={product.imagePic}>
+                  <div className={product.imageContainer}>
+                    <Image
+                      src={item.images[2] ? item.images[2] : "/image.svg"}
+                      alt="Image principal"
+                      layout="fill"
+                      sizes="100%"
+                      objectFit="cover"
+                    />
+                  </div>
+                  <input type="file" onChange={(e) => handleChange(e, "TP")} />
+                  <button value="TP" onClick={handleUpload}>
+                    Remplacer
+                  </button>
+                </div>
+              </div>
+            </section>
+            <section>
+              <label>
+                Ajouter un mode livraison
+              </label>
+              <div>
+                <div>
+                <select
+                onChange={(e) =>
+                  setDelivery({type: e.target.value })
+                }
+              >
+                <option>Methode de livraison</option>
+                <option value="Livraison">Livraison</option>
+                <option value="ClickCollect">Click&Collect</option>
+              </select>
+              {toogleDelivery(delivery.type)}
+              <button onClick={ValidateDel}>Valider la methode de livraison</button>
+                </div>
+              
+              </div>
+              
+            </section>
+            <section>
+            <select onChange={pickSize}>
                 <option>Selectionner un type de taille</option>
                 {sizesSelect.map((sizes, i) => {
                   return <option value={sizes._id}>{sizes.name}</option>;
@@ -402,13 +442,9 @@ export default function ModifyProduct({ item_m, getGenre, getCategorie, sizesSel
                     : "promotion"
                 }
               />
-              
-              <textarea
-                type="text"
-                onChange={ondescriptionChange}
-                placeholder={`Description du produit - ${item.description}`}
-              />
-              <input
+            </section>
+            <section>
+            <input
                 type="text"
                 onChange={onmatiereChange}
                 placeholder={`Matiere - ${item.matiere.map(
@@ -435,8 +471,8 @@ export default function ModifyProduct({ item_m, getGenre, getCategorie, sizesSel
                   return <option value={genre.name}>{genre.name}</option>;
                 })}
               </select>
-              <button onClick={Submit}>Validé</button>
-            </form>
+            </section>
+            <button onClick={Submit}>Validé</button>
           </div>
         </div>
       </div>
@@ -468,7 +504,7 @@ export async function getServerSideProps({ params }) {
     })
     .catch((err) => console.log(err));
 
-    const sizesSelect = await axios
+  const sizesSelect = await axios
     .get(`http://localhost:3001/api/sizes/all/sizes`)
     .then((res) => {
       return res.data;
@@ -482,7 +518,7 @@ export async function getServerSideProps({ params }) {
       item_m,
       getGenre,
       getCategorie,
-      sizesSelect
+      sizesSelect,
     },
   };
 }
